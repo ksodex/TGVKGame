@@ -12,6 +12,7 @@ import { useRecoilState } from "recoil"
 const MainPage = lazy(() => import("./pages/main.jsx"))
 const RatingPage = lazy(() => import("./pages/rating.jsx"))
 const MemoryGame = lazy(() => import("./pages/memoryGame.jsx"))
+const WordBotGame = lazy(() => import("./pages/wordBotGame.jsx"))
 
 const App = () => {
     const [modal] = useRecoilState(useModal)
@@ -57,11 +58,11 @@ const App = () => {
                         </Suspense>
                     </Panel> */}
 
-                    {/* <Panel id="word-bot">
+                    <Panel id="word-bot">
                         <Suspense fallback={<ScreenSpinner />}>
-                            <GameLayout gameName={"Мемори"} target={<>word-bot</>} />
+                            <WordBotGame/>
                         </Suspense>
-                    </Panel> */}
+                    </Panel>
                     <Panel id="memory">
                         <Suspense fallback={<ScreenSpinner />}>
                             <MemoryGame />

@@ -20,7 +20,7 @@ export const itemsInfo = {
             title: "На внимание",
             games: [
                 {
-                    title: "СловесБот",
+                    title: "СловесБот (Анаграмы сейчас)",
                     description: "Игрок должен найти отличия за определенное время.",
                     code: "word-bot"
                 },

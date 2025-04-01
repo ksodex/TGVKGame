@@ -7,10 +7,9 @@ import { PanelHeader } from "@vkontakte/vkui"
 import { Button } from "../components/Button"
 
 import { itemsInfo } from "../vendor/gameInfo"
-// import { itemsLink } from "../vendor/gameLink"
 
 const MainPage = () => {
-    const [panel, toPanel] = useRouterPanel()
+    const [_, toPanel] = useRouterPanel()
     const [activeCategory, setActiveCategory] = useState("Все")
 
     return <main className="bg-[#f1f3f5] space-y-4">
@@ -18,7 +17,7 @@ const MainPage = () => {
             <span className="flex justify-center text-md text-[#FF4800]">Игры</span>
         </PanelHeader>
 
-        <section className="bg-red-[#f1f3f5] min-h-screen space-y-4 p-2">
+        <section className="min-h-screen space-y-4 p-2">
             <div className="flex shrink-0 flex-nowrap space-x-2 overflow-x-auto w-full">
                 {itemsInfo.categoryes.map((item, index) => (
                     <Button
