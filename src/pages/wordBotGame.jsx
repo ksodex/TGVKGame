@@ -154,13 +154,9 @@ export const WordBotGame = () => {
                 if (data.isCorrect) {
                     setModal(
                         <LevelPassed
+                            toBack={toBack}
                             setModal={setModal}
-                            againVoid={() => {
-                                // setAttachedSymbols(Array(wordLength).fill(null))
-                                // setSelectedPosition(null)
-                                // setIsGameStarted(true)
-                                // setTime(60)
-                            }}
+                            againVoid={() => { handleCreateRound(selectedLevel) }}
                         />
                     )
                 }

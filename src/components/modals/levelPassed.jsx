@@ -3,7 +3,7 @@ import confetti from "canvas-confetti"
 import { Button } from "../Button"
 import { TimeCard, CoinCard, ExperienceCard } from "../cards"
 
-export const LevelPassed = ({ setModal, againVoid }) => {
+export const LevelPassed = ({ setModal, againVoid, toBack }) => {
     confetti({
         shapes: [confetti.shapeFromPath({ path: "M0 10 L5 0 L10 10z" })],
         particleCount: 400
@@ -30,7 +30,10 @@ export const LevelPassed = ({ setModal, againVoid }) => {
                 >
                     Играть уровень еще раз
                 </Button>
-                <Button onClick={() => setModal(null)}>Выйти</Button>
+                <Button onClick={() => {
+                    setModal(null)
+                    toBack(-1)
+                }}>Выйти</Button>
             </div>
         </div>
     </div>
