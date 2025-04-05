@@ -31,12 +31,7 @@ export default ({ mode }) => {
                         format: {
                             comments: false
                         }
-                    }),
-                    // compressDist({
-                    //     type: "zip",
-                    //     archiverName: "build.zip",
-                    //     sourceName: "build"
-                    // })
+                    })
                 ]
             }
         }
