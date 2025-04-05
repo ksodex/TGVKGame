@@ -1,22 +1,23 @@
 import { Button } from "./Button"
+import { useEffect, useState } from "react"
 
 export const LevelDifficult = ({
     levels,
-    selectedLevel,
-    setSelectedLevel,
-    setIsGameStarted
+    handleInitializeRound
 }) => {
+    const [level, setLevel] = useState(undefined)
+
     return <div>
         <h1 className="text-3xl text-center font-bold">Уровень сложности</h1>
 
         <div className="flex flex-col space-y-3 p-2 m-2">
             {levels.map((item, index) => (
                 <div
-                    className={`${selectedLevel === item.code ? "bg-[#430B51] text-white" : "bg-white"} rounded-xl transition-colors p-2`}
-                    onClick={() => setSelectedLevel(item.code)}
+                    className={`${level === item.code ? "bg-[#430B51] text-white" : "bg-white"} rounded-xl transition-colors p-2`}
+                    onClick={() => setLevel(item.code)}
                     key={index}
                 >
-                    <h1 className={`${selectedLevel === item.code ? "text-white" : "text-[#FF4800]"} font-semibold`}>{item.levelName}</h1>
+                    <h1 className={`${level === item.code ? "text-white" : "text-[#FF4800]"} font-semibold`}>{item.levelName}</h1>
                     <p>{item.description}</p>
                 </div>
             ))}
@@ -24,7 +25,7 @@ export const LevelDifficult = ({
 
         <div className="flex gap-4 fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg">
             <Button
-                onClick={() => { setIsGameStarted(true) }}
+                onClick={() => handleInitializeRound(level)}
                 isFulled
             >
                 <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">

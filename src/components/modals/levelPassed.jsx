@@ -1,7 +1,14 @@
+import confetti from "canvas-confetti"
+
 import { Button } from "../Button"
-import { TimeCard, CoinCard, ExperienceCard } from "../../components/cards"
+import { TimeCard, CoinCard, ExperienceCard } from "../cards"
 
 export const LevelPassed = ({ setModal, againVoid }) => {
+    confetti({
+        shapes: [confetti.shapeFromPath({ path: "M0 10 L5 0 L10 10z" })],
+        particleCount: 400
+    })
+
     return <div className="fixed inset-0 flex items-center justify-center bg-black/50 bg-opacity-50 z-50 w-full">
         <div className="bg-white rounded-lg space-y-6 p-6">
             <h1 className="text-green-600 text-3xl text-center font-semibold">Уровень пройден</h1>

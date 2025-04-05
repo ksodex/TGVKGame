@@ -1,3 +1,5 @@
+import axios from "axios"
+
 import { useRouterBack } from "@kokateam/router-vkminiapps"
 import { PanelHeader } from "@vkontakte/vkui"
 import { useState, useEffect } from "react"
@@ -8,94 +10,99 @@ import { LevelPassed } from "../components/modals/levelPassed"
 import { LevelDifficult } from "../components/levelDifficult"
 import { GameHeader } from "../components/gameHeader"
 import { useModal } from "../hooks/useModal"
-// import { ZeroBalanceModal } from "../components/modals/zeroAttempsModal"
 
 const levels = [
     { code: 4, levelName: "Детский", description: "Слова из 4-5 букв" },
     { code: 6, levelName: "Простой", description: "Слова из 6-7 букв" },
     { code: 8, levelName: "Средний", description: "Слова из 8-9 букв" },
-    { code: 10, levelName: "Сложный", description: "Слова из 10+ букв" },
+    { code: 10, levelName: "Сложный", description: "Слова из 10+ букв" }
 ]
 
+const formatTime = (seconds) => {
+    if (seconds < 0) return '00:00'
+
+    const minutes = Math.floor(seconds / 60)
+    const remainingSeconds = seconds % 60
+
+    const formattedMinutes = String(minutes).padStart(2, '0')
+    const formattedSeconds = String(remainingSeconds).padStart(2, '0')
+
+    return `${formattedMinutes}:${formattedSeconds}`
+}
+
 export const WordBotGame = () => {
-    const [_, setModal] = useRecoilState(useModal)
-    const [isGameStarted, setIsGameStarted] = useState(false)
-    const [selectedLevel, setSelectedLevel] = useState(4)
+    const [modal, setModal] = useRecoilState(useModal)
 
-    const [aviableSymbols, setAviableSymbols] = useState([])
+    const [selectedLevel, setSelectedLevel] = useState(undefined)
     const [attachedSymbols, setAttachedSymbols] = useState([])
-
-    const [resultWord, __] = useState("ПРОГМ")
-    const [wordLength, ___] = useState(5)
-
-    const [attempts, setAttempts] = useState(3)
-    const [time, setTime] = useState(60)
-
     const [selectedPosition, setSelectedPosition] = useState(null)
+
+    const [aviableSymbols, setAviableSymbols] = useState(undefined)
+    const [aviableTime, setAviableTime] = useState(undefined)
+    const [wordLength, setWordLength] = useState(undefined)
+    const [wordIndex, setWordIndex] = useState(undefined)
+    const [difficult, setDifficult] = useState(undefined)
 
     const toBack = useRouterBack()
 
-    useEffect(() => {
-        setAviableSymbols([
-            "П", "Т", "А", "Г", "С", "Р", "О", "М", "Р", "И", "М"
-        ])
-        setAttachedSymbols(Array(wordLength).fill(null))
-    }, [])
-
-    useEffect(() => {
-        if (!isGameStarted || time <= 0) {
-            if (time <= 0 && isGameStarted) {
-                setIsGameStarted(false)
-                setModal(
-                    <LevelTimeOut
-                        againVoid={() => {
-                            setAttachedSymbols(Array(wordLength).fill(null))
-                            setSelectedPosition(null)
-                            setIsGameStarted(true)
-                            setTime(60)
-                        }}
-                        setModal={setModal}
-                    />
-                )
-            }
-            return
-        }
-
-        const timer = setInterval(() => {
-            setTime(prevCount => prevCount - 1)
-        }, 1000)
-
-        return () => clearInterval(timer)
-    }, [time, isGameStarted])
-
-    useEffect(() => {
-        if (
-            attachedSymbols.length === wordLength &&
-            attachedSymbols.join("") === resultWord
-        ) {
-            setModal(
-                <LevelPassed
-                    setModal={setModal}
-                    againVoid={() => {
-                        setAttachedSymbols(Array(wordLength).fill(null))
-                        setSelectedPosition(null)
-                        setIsGameStarted(true)
-                        setTime(60)
-                    }}
-                />
+    const handleCreateRound = async (code) => {
+        try {
+            const response = await axios.post(
+                "http://localhost:3487/games/annagrams/create",
+                { type: "animals", difficult: code },
+                {
+                    headers: {
+                        "user": "user=%7B%22id%22%3A1891387921%2C%22first_name%22%3A%22Sergey%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22GinShiro7th%22%2C%22language_code%22%3A%22ru%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2Fh6vUYgbFlOEd12x_d3lq7puLafZySR_juOW3OR-tpqU.svg%22%7D&chat_instance=1726011313713257689&chat_type=private&auth_date=1741260964&signature=OjCnAjXD64Kiwmp2P9vw-8FBjHCbtOU-cgmJyveXyLDXI5CSUvOxP0jMbJVyTGItygCcT0bp4t1tzYkGFNw2Aw&hash=657a4ad2ab248e9cacd97a12676254be1139a8124268aa3aeae7fb5f5e3ff0ac",
+                        "Content-Type": "application/json"
+                    }
+                }
             )
+
+            const { data } = response.data
+
+            if (code) {
+                setAviableTime(data.availableTime)
+                setAviableSymbols(data.symbols)
+                setWordLength(data.wordLength)
+                setWordIndex(data.wordNumber)
+                setDifficult(data.difficult)
+
+                setSelectedLevel(code)
+
+                setAttachedSymbols(Array(data.wordLength).fill(null))
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error)
         }
-    }, [attachedSymbols])
-
-    const data = {
-        amount: 23,
-        cardAttemps: 231,
-        time: time
     }
 
-    const handlePositionSelect = (index) => {
-        setSelectedPosition(index)
+    const handleValidateWord = async (type, difficult, wordIndex, result) => {
+        try {
+            const response = await axios.post(
+                "http://localhost:3487/games/annagrams/validate",
+                {
+                    type: type,
+                    difficult: difficult,
+                    wordIndex: wordIndex,
+                    userWord: result
+                },
+                {
+                    headers: {
+                        "user": "user=%7B%22id%22%3A1891387921%2C%22first_name%22%3A%22Sergey%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22GinShiro7th%22%2C%22language_code%22%3A%22ru%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2Fh6vUYgbFlOEd12x_d3lq7puLafZySR_juOW3OR-tpqU.svg%22%7D&chat_instance=1726011313713257689&chat_type=private&auth_date=1741260964&signature=OjCnAjXD64Kiwmp2P9vw-8FBjHCbtOU-cgmJyveXyLDXI5CSUvOxP0jMbJVyTGItygCcT0bp4t1tzYkGFNw2Aw&hash=657a4ad2ab248e9cacd97a12676254be1139a8124268aa3aeae7fb5f5e3ff0ac",
+                        "Content-Type": "application/json"
+                    }
+                }
+            )
+
+            const { data } = response.data
+
+            return data
+        } catch (error) {
+            console.error("Error fetching data:", error)
+        }
     }
+
+    const handlePositionSelect = (index) => setSelectedPosition(index)
 
     const handleSymbolClick = (symbol) => {
         let positionToFill = selectedPosition
@@ -107,9 +114,59 @@ export const WordBotGame = () => {
 
         const newAttachedSymbols = [...attachedSymbols]
         newAttachedSymbols[positionToFill] = symbol
+
         setAttachedSymbols(newAttachedSymbols)
         setSelectedPosition(null)
     }
+
+    useEffect(() => {
+        if (aviableTime === 0) {
+            setModal(
+                <LevelTimeOut
+                    setModal={setModal}
+                    againVoid={() => {
+                        setAviableTime(60)
+                        setSelectedLevel("level1")
+                        setModal(null)
+                    }}
+                />
+            )
+        }
+
+        if (aviableTime === undefined || aviableTime <= 0 || !selectedLevel || modal) return
+
+        const timer = setInterval(() => {
+            setAviableTime(prevCount => {
+                if (prevCount > 0) {
+                    return prevCount - 1
+                }
+
+                return 0
+            })
+        }, 1000)
+
+        return () => clearInterval(timer)
+    }, [aviableTime, selectedLevel, modal])
+
+    useEffect(() => {
+        if (!attachedSymbols.includes(null) && attachedSymbols.length > 0) {
+            handleValidateWord("animals", difficult, wordIndex, attachedSymbols.join("")).then(data => {
+                if (data.isCorrect) {
+                    setModal(
+                        <LevelPassed
+                            setModal={setModal}
+                            againVoid={() => {
+                                // setAttachedSymbols(Array(wordLength).fill(null))
+                                // setSelectedPosition(null)
+                                // setIsGameStarted(true)
+                                // setTime(60)
+                            }}
+                        />
+                    )
+                }
+            })
+        }
+    }, [attachedSymbols])
 
     const getButtonBackgroundColor = (symbol) => {
         if (selectedPosition !== null && attachedSymbols[selectedPosition] === symbol) {
@@ -132,17 +189,19 @@ export const WordBotGame = () => {
         </PanelHeader>
 
         {
-            !isGameStarted ?
+            !selectedLevel ?
                 <LevelDifficult
                     levels={levels}
-                    selectedLevel={selectedLevel}
-                    setIsGameStarted={setIsGameStarted}
-                    setSelectedLevel={setSelectedLevel}
+                    handleInitializeRound={handleCreateRound}
                 /> :
 
                 <section className="space-y-4 text-[#430B51] p-2 m-2">
                     <GameHeader
-                        data={data}
+                        data={{
+                            amount: 0,
+                            cardAttemps: 0,
+                            time: formatTime(aviableTime)
+                        }}
                         isCoins
                         isCards
                         isTime
@@ -168,7 +227,6 @@ export const WordBotGame = () => {
                                 onClick={() => handleSymbolClick(item)}
                                 style={{ backgroundColor: getButtonBackgroundColor(item) }}
                                 className={`flex items-center justify-center border-2 rounded-md aspect-square border-[#430B51] transition-colors p-1`}
-                                disabled={attempts <= 0}
                             >
                                 <span className="text-[#430B51] transition-colors text-4xl font-bold">{item}</span>
                             </button>
