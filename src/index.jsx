@@ -27,7 +27,7 @@ import {
 
 eruda.init()
 
-axios.defaults.baseURL = "http://app-backend.csio-dpo.ru" //
+axios.defaults.baseURL = "https://app-backend.csio-dpo.ru"
 
 const initializeTelegramSDK = async () => {
     try {
