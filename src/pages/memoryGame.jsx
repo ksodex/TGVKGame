@@ -97,31 +97,20 @@ export const MemoryGame = () => {
                             {grid.map((card, index) => (
                                 <div
                                     key={index}
-                                    className="border-2 p-4 flex justify-center items-center text-lg aspect-square cursor-pointer"
+                                    className="border-2 border-[#430B51] rounded-md  overflow-hidden aspect-square"
                                     onClick={() => handleClick(index)}
-                                    style={{
-                                        perspective: "1000px", // Создаем перспективу для 3D эффектов
-                                    }}
+                                    style={{ perspective: "1000px" }}
                                 >
                                     <div
-                                        className={`relative w-full h-full transform transition-transform duration-500 ${flippedCards.includes(index) ? "rotate-x-180" : ""
-                                            }`}
-                                        style={{
-                                            transformStyle: "preserve-3d", // Включаем 3D-преобразования
-                                        }}
+                                        className={`relative w-full h-full transform transition-transform duration-500 ${flippedCards.includes(index) ? "rotate-x-180" : ""}`}
+                                        style={{ transformStyle: "preserve-3d" }}
                                     >
-                                        {/* Передняя сторона карточки */}
-                                        <div
-                                            className="absolute w-full h-full bg-blue-500 flex justify-center items-center text-white backface-hidden"
-                                        >
-                                            {card.front}
+                                        <div className="absolute w-full h-full flex justify-center items-center text-black backface-hidden">
+                                            {card.front} + FRONT
                                         </div>
 
-                                        {/* Задняя сторона карточки */}
-                                        <div
-                                            className="absolute w-full h-full bg-green-500 flex justify-center items-center text-white rotate-x-180 backface-hidden"
-                                        >
-                                            {card.back}
+                                        <div className="absolute w-full h-full flex justify-center items-center text-black rotate-x-180 backface-hidden">
+                                            {card.back} + BACK
                                         </div>
                                     </div>
                                 </div>

@@ -9,6 +9,7 @@ import { LevelTimeOut } from "../components/modals/levelTimeout"
 import { LevelPassed } from "../components/modals/levelPassed"
 import { LevelDifficult } from "../components/levelDifficult"
 import { GameHeader } from "../components/gameHeader"
+import { formatTime } from "../utils/formatTime"
 import { useModal } from "../hooks/useModal"
 
 const levels = [
@@ -17,18 +18,6 @@ const levels = [
     { code: 8, levelName: "Средний", description: "Слова из 8-9 букв" },
     { code: 10, levelName: "Сложный", description: "Слова из 10+ букв" }
 ]
-
-const formatTime = (seconds) => {
-    if (seconds < 0) return '00:00'
-
-    const minutes = Math.floor(seconds / 60)
-    const remainingSeconds = seconds % 60
-
-    const formattedMinutes = String(minutes).padStart(2, '0')
-    const formattedSeconds = String(remainingSeconds).padStart(2, '0')
-
-    return `${formattedMinutes}:${formattedSeconds}`
-}
 
 export const WordBotGame = () => {
     const [modal, setModal] = useRecoilState(useModal)
@@ -48,14 +37,8 @@ export const WordBotGame = () => {
     const handleCreateRound = async (code) => {
         try {
             const response = await axios.post(
-                "http://localhost:3487/games/annagrams/create",
-                { type: "animals", difficult: code },
-                {
-                    headers: {
-                        "user": "user=%7B%22id%22%3A1891387921%2C%22first_name%22%3A%22Sergey%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22GinShiro7th%22%2C%22language_code%22%3A%22ru%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2Fh6vUYgbFlOEd12x_d3lq7puLafZySR_juOW3OR-tpqU.svg%22%7D&chat_instance=1726011313713257689&chat_type=private&auth_date=1741260964&signature=OjCnAjXD64Kiwmp2P9vw-8FBjHCbtOU-cgmJyveXyLDXI5CSUvOxP0jMbJVyTGItygCcT0bp4t1tzYkGFNw2Aw&hash=657a4ad2ab248e9cacd97a12676254be1139a8124268aa3aeae7fb5f5e3ff0ac",
-                        "Content-Type": "application/json"
-                    }
-                }
+                "/games/annagrams/create",
+                { type: "animals", difficult: code }
             )
 
             const { data } = response.data
@@ -79,18 +62,12 @@ export const WordBotGame = () => {
     const handleValidateWord = async (type, difficult, wordIndex, result) => {
         try {
             const response = await axios.post(
-                "http://localhost:3487/games/annagrams/validate",
+                "/games/annagrams/validate",
                 {
                     type: type,
                     difficult: difficult,
                     wordIndex: wordIndex,
                     userWord: result
-                },
-                {
-                    headers: {
-                        "user": "user=%7B%22id%22%3A1891387921%2C%22first_name%22%3A%22Sergey%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22GinShiro7th%22%2C%22language_code%22%3A%22ru%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2Fh6vUYgbFlOEd12x_d3lq7puLafZySR_juOW3OR-tpqU.svg%22%7D&chat_instance=1726011313713257689&chat_type=private&auth_date=1741260964&signature=OjCnAjXD64Kiwmp2P9vw-8FBjHCbtOU-cgmJyveXyLDXI5CSUvOxP0jMbJVyTGItygCcT0bp4t1tzYkGFNw2Aw&hash=657a4ad2ab248e9cacd97a12676254be1139a8124268aa3aeae7fb5f5e3ff0ac",
-                        "Content-Type": "application/json"
-                    }
                 }
             )
 
@@ -230,7 +207,6 @@ export const WordBotGame = () => {
                     </div>
                 </section>
         }
-
     </main>
 }
 

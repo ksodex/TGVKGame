@@ -7,8 +7,6 @@ import { useSnackbar } from "./hooks/useSnackbar"
 import { useModal } from "./hooks/useModal"
 import { useRecoilState } from "recoil"
 
-// import { itemsLink } from "./vendor/gameLink"
-
 const MainPage = lazy(() => import("./pages/main.jsx"))
 const RatingPage = lazy(() => import("./pages/rating.jsx"))
 const MemoryGame = lazy(() => import("./pages/memoryGame.jsx"))
@@ -36,31 +34,9 @@ const App = () => {
                         </Suspense>
                     </Panel>
 
-                    {/* <Panel id="continue-history">
-                        <Suspense fallback={<ScreenSpinner />}>
-                            <GameLayout gameName={"Мемори"} target={<Memory />} />
-                        </Suspense>
-                    </Panel> */}
-                    {/* <Panel id="continue-word">
-                        <Suspense fallback={<ScreenSpinner />}>
-                            <GameLayout gameName={"Мемори"} target={<>iwobdiwoqbdoibwqio</>} />
-                        </Suspense>
-                    </Panel> */}
-
-                    {/* <Panel id="history-event">
-                        <Suspense fallback={<ScreenSpinner />}>
-                            <GameLayout gameName={"Мемори"} target={<>iwobdiwoqbdoibwqio</>} />
-                        </Suspense>
-                    </Panel>
-                    <Panel id="categoryes">
-                        <Suspense fallback={<ScreenSpinner />}>
-                            <GameLayout gameName={"Мемори"} target={<>iwobdiwoqbdoibwqio</>} />
-                        </Suspense>
-                    </Panel> */}
-
                     <Panel id="word-bot">
                         <Suspense fallback={<ScreenSpinner />}>
-                            <WordBotGame/>
+                            <WordBotGame />
                         </Suspense>
                     </Panel>
                     <Panel id="memory">
@@ -68,16 +44,6 @@ const App = () => {
                             <MemoryGame />
                         </Suspense>
                     </Panel>
-                    {/* <Panel id="test">
-                        <Suspense fallback={<ScreenSpinner />}>
-                            <GameLayout gameName={"Мемори"} target={<>iwobdiwoqbdoibwqio</>} />
-                        </Suspense>
-                    </Panel> */}
-
-
-
-
-
                 </View>
             </Epic>
         </SplitLayout>

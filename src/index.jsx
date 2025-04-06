@@ -12,7 +12,6 @@ import { RouterRoot } from "@kokateam/router-vkminiapps"
 import { createRoot } from "react-dom/client"
 import { version } from "../package.json"
 
-
 import {
     defineEventHandlers,
     init,
@@ -28,7 +27,7 @@ import {
 
 eruda.init()
 
-axios.defaults.baseURL = "https://tgapp-backend.cazis-app.ru/"
+axios.defaults.baseURL = "http://app-backend.csio-dpo.ru" //
 
 const initializeTelegramSDK = async () => {
     try {
@@ -95,13 +94,14 @@ const initializeTelegramSDK = async () => {
 
         console.log("Mock Telegram environment initialized")
     } finally {
-        //const { initDataRaw } = retrieveLaunchParams()
         const raw = decodeURIComponent(window.location.href)
             .split("#tgWebAppData=")[1]
             .split("&tgWebAppVersion")[0]
         console.log("Init data params", raw)
+
         axios.defaults.headers["user"] = raw
         axios.defaults.headers["tg_init_data"] = raw
+        axios.defaults.headers["Content-Type"] = "application/json"
     }
 }
 
@@ -117,7 +117,7 @@ root.render(
                 <App />
             </RouterRoot>
         </AppRoot>
-    </AdaptivityProvider>,
+    </AdaptivityProvider>
 )
 
 const snippets = eruda.get("snippets")
@@ -127,7 +127,7 @@ snippets.add(
     () => {
         console.log(document.location.href)
     },
-    "Выводит параметры запуска в консоль (Console).",
+    "Выводит параметры запуска в консоль (Console)."
 )
 const info = eruda.get("info")
 info.add("Version app", version)
