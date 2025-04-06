@@ -17,6 +17,11 @@ const MainPage = () => {
             <span className="flex justify-center text-md text-[#FF4800]">Игры</span>
         </PanelHeader>
 
+        <div className="ml-10">
+            <Button onClick={() => toPanel("rating")}>Рейтинг (ЧИСТО ТЕСТ)</Button>
+        </div>
+
+
         <section className="min-h-screen space-y-4 p-2">
             <div className="flex shrink-0 flex-nowrap space-x-2 overflow-x-auto w-full">
                 {itemsInfo.categoryes.map((item, index) => (
