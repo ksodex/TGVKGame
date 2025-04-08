@@ -3,7 +3,7 @@ import confetti from "canvas-confetti"
 import { Button } from "../Button"
 import { TimeCard, CoinCard, ExperienceCard } from "../cards"
 
-export const LevelPassed = ({ setModal, againVoid, toBack }) => {
+export const LevelPassed = ({ setModal, againVoid, toBack, data }) => {
     confetti({
         shapes: [confetti.shapeFromPath({ path: "M0 10 L5 0 L10 10z" })],
         particleCount: 400
@@ -15,9 +15,9 @@ export const LevelPassed = ({ setModal, againVoid, toBack }) => {
             <p className="text-center font-semibold">Молодец, продолжай в том же духе!</p>
 
             <div className="flex justify-center space-x-1">
-                <TimeCard />
-                <CoinCard />
-                <ExperienceCard />
+                <ExperienceCard winExperience={data.winExperience} />
+                <TimeCard winTime={data.winTime} />
+                <CoinCard winMoney={data.winMoney} />
             </div>
 
             <div className="flex gap-4">

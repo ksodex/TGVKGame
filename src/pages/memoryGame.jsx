@@ -31,7 +31,7 @@ const createGrid = (rows, columns) => {
 }
 
 export const MemoryGame = () => {
-    const [isGameStarted, setIsGameStarted] = useState(false)
+    const [isGameStarted, setIsGameStarted] = useState(true)
     const [flippedCards, setFlippedCards] = useState([])
     const [selectedLevel, setSelectedLevel] = useState(4)
 

@@ -50,7 +50,7 @@ const RatingPage = () => {
                 <h1 className="text-xl font-semibold text-white">Призы за места</h1>
 
                 <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1.3208 0.611206L10.2048 8.97259L19.0887 0.611208" stroke="white" stroke-width="1.17378" />
+                    <path d="M1.3208 0.611206L10.2048 8.97259L19.0887 0.611208" stroke="white" strokeWidth="1.17378" />
                 </svg>
             </div>
 
