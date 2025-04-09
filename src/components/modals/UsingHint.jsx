@@ -19,6 +19,7 @@ export const UsingHint = ({ setModal, gameState }) => {
     const handleUseHint = async () => {
         try {
             const hintData = await getHint()
+
             if (hintData) {
                 await new Promise(resolve => {
                     setHints(prev => {

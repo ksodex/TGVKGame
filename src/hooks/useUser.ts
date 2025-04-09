@@ -30,5 +30,5 @@ export const useUser = ({ dependencies }: IUseUser) => {
         fetcher()
     }, dependencies)
 
-    return { experience, money, hints }
+    return { experience, money, hints, setHints }
 }
