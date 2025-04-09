@@ -20,7 +20,6 @@
         "@kokateam/router-vkminiapps": "^0.2.6",
         "@tailwindcss/vite": "^4.0.17",
         "@telegram-apps/sdk": "^2.4.0",
-        "@types/node": "^22.13.14",
         "@types/react": "^19.0.5",
         "@types/react-dom": "^19.0.3",
         "@vkontakte/icons": "^2.110.0",
@@ -34,6 +33,7 @@
         "tailwindcss": "^4.0.17"
     },
     "devDependencies": {
+        "@types/node": "^22.14.0",
         "@vitejs/plugin-react-swc": "^3.5.0",
         "@vkontakte/vk-miniapps-deploy": "^0.1.7",
         "cross-env": "^7.0.3",

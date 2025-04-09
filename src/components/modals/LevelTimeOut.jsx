@@ -1,6 +1,11 @@
 import { Button } from "../Button"
 
-export const LevelTimeOut = ({ setModal, againVoid }) => {
+export const LevelTimeOut = ({ setModal, toBack, againVoid }) => {
+    const exit = () => {
+        setModal(null);
+        toBack(-1)
+    }
+
     return <div className="fixed inset-0 flex items-center justify-center bg-black/50 bg-opacity-50 z-50 w-full">
         <div className="bg-white rounded-lg space-y-6 p-6">
             <h1 className="text-[#FF4800] text-3xl text-center font-semibold">Время вышло</h1>
@@ -16,7 +21,7 @@ export const LevelTimeOut = ({ setModal, againVoid }) => {
                 >
                     Играть уровень еще раз
                 </Button>
-                <Button onClick={() => setModal(null)}>Выйти</Button>
+                <Button onClick={exit}>Выйти</Button>
             </div>
         </div>
     </div>

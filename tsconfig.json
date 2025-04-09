@@ -18,7 +18,8 @@
         "isolatedModules": true,
         "jsx": "react",
         "types": [
-            "vite/client"
+            "vite/client",
+            "node"
         ]
     },
     "include": [

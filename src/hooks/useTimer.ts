@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 interface IUseTimer {
     dependencies: {
@@ -12,20 +12,30 @@ interface IUseTimer {
 }
 
 export const useTimer = ({ dependencies, timerData }: IUseTimer) => {
+    const { selectedLevel } = dependencies
+    const { aviableTime, setAviableTime } = timerData
+    const timerRef = useRef<NodeJS.Timeout | null>(null)
+
     useEffect(() => {
-        if (
-            !timerData.aviableTime ||
-            !dependencies.selectedLevel ||
-            timerData.aviableTime <= 0
-        ) return
+        if (!selectedLevel || aviableTime <= 0) {
+            if (timerRef.current) {
+                clearInterval(timerRef.current)
+                timerRef.current = null
+            }
+            return
+        }
 
-        const timer = setInterval(() => {
-            timerData.setAviableTime(prevCount => {
-                if (prevCount > 0) return prevCount - 1
-                return 0
-            })
-        }, 1000)
+        if (!timerRef.current) {
+            timerRef.current = setInterval(() => {
+                setAviableTime((prevCount) => (prevCount > 0 ? prevCount - 1 : 0))
+            }, 1000)
+        }
 
-        return () => clearInterval(timer)
-    }, [dependencies])
+        return () => {
+            if (timerRef.current) {
+                clearInterval(timerRef.current)
+                timerRef.current = null
+            }
+        }
+    }, [selectedLevel, setAviableTime])
 }

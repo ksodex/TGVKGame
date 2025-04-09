@@ -1,6 +1,6 @@
 import { Button } from "../Button"
 
-export const ZeroBalanceModal = ({ setModal, toBack }) => {
+export const ZeroAttempsModal = ({ setModal, toBack }) => {
     return <div className="fixed inset-0 flex items-center justify-center bg-black/50 bg-opacity-50 z-50 w-full">
         <div className="bg-white rounded-lg space-y-6 p-6">
             <h1 className="text-2xl text-center font-bold">Закончились попытки </h1>
