@@ -29,7 +29,7 @@ const levels = [
 export const AnagramsGame = () => {
     const gameState = useGameState()
     const { money, hints } = useUser({ dependencies: [] })
-    const [_, setModal] = useRecoilState(useModal)
+    const [modal, setModal] = useRecoilState(useModal)
     const toBack = useRouterBack()
 
     const { handleCreateRound, checkWord } = useGameLogic({ ...gameState, toBack })
@@ -39,7 +39,8 @@ export const AnagramsGame = () => {
     useTimer({
         dependencies: {
             selectedLevel: gameState.selectedLevel,
-            aviableTime: gameState.aviableTime
+            aviableTime: gameState.aviableTime,
+            modal: modal
         },
         timerData: {
             aviableTime: gameState.aviableTime,

@@ -4,10 +4,7 @@ import { Button } from "../Button"
 import { TimeCard, CoinCard, ExperienceCard } from "../cards"
 
 export const LevelPassed = ({ setModal, againVoid, toBack, data }) => {
-    confetti({
-        shapes: [confetti.shapeFromPath({ path: "M0 10 L5 0 L10 10z" })],
-        particleCount: 400
-    })
+    confetti({ particleCount: 400 })
 
     return <div className="fixed inset-0 flex items-center justify-center bg-black/50 bg-opacity-50 z-50 w-full">
         <div className="bg-white rounded-lg space-y-6 p-6">

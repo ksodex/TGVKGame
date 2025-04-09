@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil"
 import { useModal } from "../useModal"
 import { ZeroAttempsModal } from "../../components/modals/ZeroAttempsModal"
 import { LevelPassed } from "../../components/modals/LevelPassed"
+import { formatTime } from "../../utils/formatTime"
 
 export const useGameLogic = ({
     selectedLevel,
@@ -94,7 +95,7 @@ export const useGameLogic = ({
     }
 
     const checkWord = (word) => {
-        handleValidateWord("animals", difficult, wordIndex, word).then((data) => {
+        handleValidateWord("animals", difficult, wordIndex, word).then(data => {
             if (data.isCorrect) {
                 setModal(
                     <LevelPassed
@@ -103,7 +104,11 @@ export const useGameLogic = ({
                         }}
                         setModal={setModal}
                         toBack={toBack}
-                        data={{ winExperience, winMoney, winTime }}
+                        data={{
+                            winExperience: data.expReceived,
+                            winMoney: data.money,
+                            winTime: formatTime(data.remainingTime)
+                        }}
                     />
                 )
             }

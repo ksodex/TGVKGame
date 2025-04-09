@@ -4,6 +4,7 @@ interface IUseTimer {
     dependencies: {
         selectedLevel: number
         aviableTime: number
+        modal: any
     }
     timerData: {
         aviableTime: number
@@ -12,16 +13,21 @@ interface IUseTimer {
 }
 
 export const useTimer = ({ dependencies, timerData }: IUseTimer) => {
-    const { selectedLevel } = dependencies
+    const { selectedLevel, modal } = dependencies
     const { aviableTime, setAviableTime } = timerData
     const timerRef = useRef<NodeJS.Timeout | null>(null)
 
     useEffect(() => {
-        if (!selectedLevel || aviableTime <= 0) {
+        if (
+            !selectedLevel ||
+            aviableTime <= 0 ||
+            (modal && modal.type.name === "LevelPassed")
+        ) {
             if (timerRef.current) {
                 clearInterval(timerRef.current)
                 timerRef.current = null
             }
+
             return
         }
 
@@ -37,5 +43,5 @@ export const useTimer = ({ dependencies, timerData }: IUseTimer) => {
                 timerRef.current = null
             }
         }
-    }, [selectedLevel, setAviableTime])
+    }, [selectedLevel, setAviableTime, modal])
 }
