@@ -10,13 +10,15 @@ interface IUseUser {
 export const useUser = ({ dependencies }: IUseUser) => {
     const [experience, setExperience] = useState(0)
     const [money, setMoney] = useState(0)
+    const [hints, setHints] = useState(0)
 
     useEffect(() => {
         const fetcher = async () => {
             try {
                 const response = await axios.get("/user")
                 const data = await response.data
-
+                
+                setHints(data.hints)
                 setExperience(data.exp)
                 setMoney(data.money)
             }
@@ -28,5 +30,5 @@ export const useUser = ({ dependencies }: IUseUser) => {
         fetcher()
     }, dependencies)
 
-    return { experience, money }
+    return { experience, money, hints }
 }

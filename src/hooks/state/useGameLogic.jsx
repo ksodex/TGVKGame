@@ -32,7 +32,7 @@ export const useGameLogic = ({
         try {
             const response = await axios.post("/games/annagrams/create", {
                 type: "animals",
-                difficult: code,
+                difficult: code
             })
             const { data } = response.data
 
@@ -41,7 +41,7 @@ export const useGameLogic = ({
                 setAviableSymbols(
                     data.gameData.symbols.map((symbol, idx) => ({
                         id: `${data.gameData.wordNumber}-${idx}`,
-                        symbol,
+                        symbol
                     }))
                 )
                 setWordLength(data.gameData.wordLength)
@@ -49,11 +49,11 @@ export const useGameLogic = ({
                 setDifficult(data.difficult)
                 setAttemps(data.attemptsLeft)
                 setSelectedLevel(code)
-                setAttachedSymbols(
-                    Array(data.gameData.wordLength)
-                        .fill(null)
-                        .map(() => ({ id: null, symbol: null }))
-                )
+
+                const initialAttachedSymbols = Array(data.gameData.wordLength)
+                    .fill(null)
+                    .map(() => ({ id: null, symbol: null }))
+                setAttachedSymbols(initialAttachedSymbols)
             }
         } catch (error) {
             console.error("Error fetching data:", error)
@@ -66,7 +66,7 @@ export const useGameLogic = ({
                 type,
                 difficult,
                 wordIndex,
-                userWord: result,
+                userWord: result
             })
             const { data } = response.data
 
@@ -77,15 +77,14 @@ export const useGameLogic = ({
             } else {
                 const attachedData = Array(attachedSymbols.length).fill({
                     id: null,
-                    symbol: null,
+                    symbol: null
                 })
                 setAttachedSymbols(attachedData)
 
                 if (attemps - 1 !== 0) setAttemps(attemps - 1)
-                else
-                    setModal(
-                        <ZeroAttempsModal setModal={setModal} toBack={toBack} />
-                    )
+                else setModal(
+                    <ZeroAttempsModal setModal={setModal} toBack={toBack} />
+                )
             }
 
             return data
@@ -111,5 +110,41 @@ export const useGameLogic = ({
         })
     }
 
-    return { handleCreateRound, handleValidateWord, checkWord }
+    const getHint = async () => {
+        try {
+            const response = await axios.get("/games/annagrams/hint")
+
+            if (!response.data || typeof response.data.char !== 'string' || typeof response.data.index !== 'number') {
+                console.error("Invalid hint response format:", response.data)
+                return null
+            }
+
+            const { char, index } = response.data
+
+            if (!attachedSymbols || !attachedSymbols.length) {
+                console.error("attachedSymbols not initialized")
+                return null
+            }
+
+            if (index < 0 || index >= attachedSymbols.length) {
+                console.error("Invalid hint index:", index)
+                return null
+            }
+
+            const newAttachedSymbols = [...attachedSymbols]
+            newAttachedSymbols[index] = {
+                id: `hint-${index}`,
+                symbol: char,
+                isLocked: true
+            }
+            setAttachedSymbols(newAttachedSymbols)
+
+            return response.data
+        } catch (error) {
+            console.error("Error fetching hint:", error)
+            return null
+        }
+    }
+
+    return { handleCreateRound, handleValidateWord, checkWord, getHint }
 }

@@ -32,7 +32,7 @@ export const useSymbolInteraction = ({
     const handleRemoveLastSymbol = () => {
         const lastFilledIndex = attachedSymbols.reduce(
             (lastIdx, attached, currentIdx) => {
-                return attached.symbol !== null ? currentIdx : lastIdx;
+                return attached.symbol !== null && !attached.isLocked ? currentIdx : lastIdx;
             },
             -1
         );

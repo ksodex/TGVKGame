@@ -59,8 +59,14 @@ const RatingPage = () => {
                     users.map((item, index) => (
                         <div key={index} className="flex justify-between items-center">
                             <div className="flex items-center space-x-2">
-                                <div className="bg-red-600 aspect-square rounded-full w-1 h-1 p-5">
-                                    <div className="flex items-center justify-center relative left-2 top-2 bg-white shadow-black shadow-xl aspect-square rounded-full text-[12px] font-bold w-4 h-4">{index + 1}</div>
+                                <div
+                                    style={{
+                                        backgroundImage: `url(${item.photo_url})`,
+                                        backgroundSize: "cover"
+                                    }}
+                                    className="flex items-center justify-center aspect-square rounded-full w-10 h-10"
+                                >
+                                    <div className="flex items-center justify-center relative left-3 top-3 bg-white shadow-black shadow-xl aspect-square rounded-full text-[12px] font-bold w-4 h-4">{index + 1}</div>
                                 </div>
                                 <span>{item.name}</span>
                             </div>
@@ -76,11 +82,17 @@ const RatingPage = () => {
                 }
             </div>
         </section>
- 
+
         <div className="flex justify-between gap-4 fixed bottom-0 left-0 right-0 p-4 pb-8 shadow-black shadow-2xl">
             <div className="flex items-center space-x-2">
-                <div className="bg-red-600 aspect-square rounded-full w-1 h-1 p-5">
-                    <div className="flex items-center justify-center relative left-2 top-2 shadow-xl bg-white shadow-black shadow-3xl aspect-square rounded-full text-[12px] font-bold w-4 h-4">{1}</div>
+                <div
+                    style={{
+                        backgroundImage: `url(${nowUser && nowUser.photo_url})`,
+                        backgroundSize: "cover"
+                    }}
+                    className="flex items-center justify-center aspect-square rounded-full w-10 h-10"
+                >
+                    <div className="flex items-center justify-center relative left-3 top-3 bg-white shadow-black shadow-xl aspect-square rounded-full text-[12px] font-bold w-4 h-4">{1}</div>
                 </div>
 
                 <span>{nowUser && nowUser.name}</span>
