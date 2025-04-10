@@ -26,6 +26,12 @@ const levels = [
     { code: 10, levelName: "Сложный", description: "Слова из 10+ букв" }
 ]
 
+const categoryes = [
+    { id: 0, title: "Животные" },
+    { id: 1, title: "Фрукты" },
+    { id: 2, title: "Города" }
+]
+
 export const AnagramsGame = () => {
     const gameState = useGameState()
     const { money, hints } = useUser({ dependencies: [] })
@@ -107,6 +113,7 @@ export const AnagramsGame = () => {
             !gameState.selectedLevel ?
                 <LevelDifficult
                     levels={levels}
+                    categoryes={categoryes}
                     handleInitializeRound={handleCreateRound}
                 /> :
                 <section className="space-y-4 text-[#430B51] p-2 m-2">
