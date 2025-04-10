@@ -17,7 +17,7 @@ export const useUser = ({ dependencies }: IUseUser) => {
             try {
                 const response = await axios.get("/user")
                 const data = await response.data
-                
+
                 setHints(data.hints)
                 setExperience(data.exp)
                 setMoney(data.money)
@@ -28,7 +28,7 @@ export const useUser = ({ dependencies }: IUseUser) => {
         }
 
         fetcher()
-    }, dependencies)
+    }, ...dependencies)
 
     return { experience, money, hints, setHints }
 }

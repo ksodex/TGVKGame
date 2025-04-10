@@ -19,7 +19,7 @@ export const UsingHint = ({ setModal, gameState }) => {
     const handleUseHint = async () => {
         try {
             const hintData = await getHint()
-            console.lgo
+
             if (hintData) {
                 await new Promise(resolve => {
                     setHints(prev => {
