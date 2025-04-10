@@ -36,15 +36,11 @@ export const useGameLogic = ({
                 difficult: code
             })
             const { data } = response.data
-
+            
             if (code) {
                 setAviableTime(data.availableTime)
-                setAviableSymbols(
-                    data.gameData.symbols.map((symbol, idx) => ({
-                        id: `${data.gameData.wordNumber}-${idx}`,
-                        symbol
-                    }))
-                )
+
+                setAviableSymbols(data.gameData.symbols)
                 setWordLength(data.gameData.wordLength)
                 setWordIndex(data.gameData.wordNumber)
                 setDifficult(data.difficult)
@@ -119,12 +115,7 @@ export const useGameLogic = ({
         try {
             const response = await axios.get("/games/annagrams/hint")
 
-            if (!response.data || typeof response.data.char !== 'string' || typeof response.data.index !== 'number') {
-                console.error("Invalid hint response format:", response.data)
-                return null
-            }
-
-            const { char, index } = response.data
+            const { id, symbol, index } = response.data
 
             if (!attachedSymbols || !attachedSymbols.length) {
                 console.error("attachedSymbols not initialized")
@@ -138,10 +129,11 @@ export const useGameLogic = ({
 
             const newAttachedSymbols = [...attachedSymbols]
             newAttachedSymbols[index] = {
-                id: `hint-${index}`,
-                symbol: char,
+                id: id,
+                symbol: symbol,
                 isLocked: true
             }
+
             setAttachedSymbols(newAttachedSymbols)
 
             return response.data

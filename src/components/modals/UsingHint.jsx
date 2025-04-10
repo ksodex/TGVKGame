@@ -19,7 +19,7 @@ export const UsingHint = ({ setModal, gameState }) => {
     const handleUseHint = async () => {
         try {
             const hintData = await getHint()
-
+            console.lgo
             if (hintData) {
                 await new Promise(resolve => {
                     setHints(prev => {
@@ -36,7 +36,7 @@ export const UsingHint = ({ setModal, gameState }) => {
     }
 
     return <div className="fixed inset-0 flex items-center justify-center bg-black/50 bg-opacity-50 z-50 w-full">
-        <div className="bg-white rounded-lg space-y-6 p-6">
+        <div className="bg-white rounded-lg space-y-6 p-6 w-11/12">
             <h1 className="text-[#FF4800] text-3xl text-center font-semibold">Использовать подсказку</h1>
             <p className="text-gray-600 text-center font-semibold">Вы действительно хотите использовать подсказку?</p>
 

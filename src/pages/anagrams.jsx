@@ -68,7 +68,7 @@ export const AnagramsGame = () => {
 
     useEffect(() => {
         if (
-            !gameState.attachedSymbols.some((attached) => attached.symbol === null) &&
+            !gameState.attachedSymbols.some(attached => attached.symbol === null) &&
             gameState.attachedSymbols.length > 0
         ) {
             const word = gameState.attachedSymbols
@@ -117,7 +117,7 @@ export const AnagramsGame = () => {
                             time: formatTime(gameState.aviableTime),
                             hints: String(hints)
                         }}
-                        
+
                         hintOnClick={() => setModal(<UsingHint setModal={setModal} gameState={gameState} />)}
                     />
                     <div className="flex gap-3">
@@ -129,6 +129,7 @@ export const AnagramsGame = () => {
                         />
                         <RemoveButton onClick={handleRemoveLastSymbol} />
                     </div>
+
                     <SymbolButtons
                         aviableSymbols={gameState.aviableSymbols}
                         attachedSymbols={gameState.attachedSymbols}
