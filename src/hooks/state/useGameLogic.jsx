@@ -1,11 +1,13 @@
 import axios from "axios"
+
 import { useRecoilState } from "recoil"
-import { useModal } from "../useModal"
+
 import { ZeroAttempsModal } from "../../components/modals/ZeroAttempsModal"
 import { LevelPassed } from "../../components/modals/LevelPassed"
 import { formatTime } from "../../utils/formatTime"
+import { useModal } from "../useModal"
 
-export const useGameLogic = ({
+export const useGameLogicAnnagrams = ({
     selectedLevel,
     setSelectedLevel,
     setAviableTime,
@@ -22,10 +24,7 @@ export const useGameLogic = ({
     setWinMoney,
     setWinExperience,
     setWinTime,
-    winExperience,
-    winMoney,
-    winTime,
-    toBack,
+    toBack
 }) => {
     const [modal, setModal] = useRecoilState(useModal)
 
@@ -36,7 +35,7 @@ export const useGameLogic = ({
                 difficult: code
             })
             const { data } = response.data
-            
+
             if (code) {
                 setAviableTime(data.availableTime)
 
@@ -144,4 +143,75 @@ export const useGameLogic = ({
     }
 
     return { handleCreateRound, handleValidateWord, checkWord, getHint }
+}
+
+export const useGameLogicMemory = ({
+    selectedLevel,
+    setSelectedLevel,
+    setAviableTime,
+    setAviableSymbols,
+    setWordLength,
+    setWordIndex,
+    setDifficult,
+    setAttemps,
+    setAttachedSymbols,
+    column, setColumn,
+    grid, setGrid,
+    row, setRow,
+    attachedSymbols,
+    attemps,
+    difficult,
+    wordIndex,
+    setWinMoney,
+    setWinExperience,
+    setWinTime,
+    toBack
+}) => {
+    const getGridSize = (level) => {
+        switch (level) {
+            case 4: return { rows: 2, columns: 2 }
+            case 6: return { rows: 2, columns: 3 }
+            case 12: return { rows: 4, columns: 3 }
+            case 16: return { rows: 4, columns: 4 }
+            case 20: return { rows: 5, columns: 4 }
+            case 24: return { rows: 6, columns: 4 }
+        }
+    }
+
+    const createGrid = (rows, columns) => {
+        const totalCards = rows * columns
+        return new Array(totalCards).fill('?')
+    }
+
+    const handleCreateRound = async (code) => {
+        const gridData = getGridSize(code)
+        const grid = createGrid(gridData.rows, gridData.columns)
+        console.log(gridData, grid)
+
+        setGrid(grid)
+        setRow(gridData.rows)
+        setColumn(gridData.columns)
+
+        try {
+            const response = await axios.post("/games/memory/create", {
+                type: "memory",
+                difficult: 1
+            })
+
+            const { data } = response.data
+
+            if (code) {
+                setAviableTime(data.availableTime)
+
+                setDifficult(data.difficult)
+                setAttemps(data.attemptsLeft)
+                setSelectedLevel(code)
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error)
+        }
+    }
+
+    return { getGridSize, handleCreateRound, createGrid }
+
 }

@@ -1,6 +1,6 @@
-import { Button } from "../Button"
-import { useGameLogic } from "../../hooks/state/useGameLogic"
+import { useGameLogicAnnagrams as useGameLogic } from "../../hooks/state/useGameLogic"
 import { useUser } from "../../hooks/useUser"
+import { Button } from "../Button"
 
 export const UsingHint = ({ setModal, gameState }) => {
     const { setMoney, setHints } = useUser({ dependencies: [] })

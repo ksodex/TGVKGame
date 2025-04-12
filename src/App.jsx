@@ -9,7 +9,7 @@ import { useRecoilState } from "recoil"
 
 const MainPage = lazy(() => import("./pages/main.jsx"))
 const RatingPage = lazy(() => import("./pages/rating.jsx"))
-const MemoryGame = lazy(() => import("./pages/memoryGame.jsx"))
+const MemoryGame = lazy(() => import("./pages/memory.jsx"))
 const AnagramsGame = lazy(() => import("./pages/anagrams.jsx"))
 
 const App = () => {

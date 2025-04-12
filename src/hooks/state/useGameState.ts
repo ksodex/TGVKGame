@@ -1,13 +1,8 @@
 import { useState } from "react"
 
-export const useGameState = () => {
+const useDefaultState = () => {
     const [selectedLevel, setSelectedLevel] = useState(undefined)
-    const [attachedSymbols, setAttachedSymbols] = useState([])
-    const [selectedPosition, setSelectedPosition] = useState(null)
-    const [aviableSymbols, setAviableSymbols] = useState(undefined)
     const [aviableTime, setAviableTime] = useState(undefined)
-    const [wordLength, setWordLength] = useState(undefined)
-    const [wordIndex, setWordIndex] = useState(undefined)
     const [difficult, setDifficult] = useState(undefined)
     const [attemps, setAttemps] = useState(undefined)
     const [hints, setHints] = useState(undefined)
@@ -17,17 +12,46 @@ export const useGameState = () => {
 
     return {
         selectedLevel, setSelectedLevel,
-        attachedSymbols, setAttachedSymbols,
-        selectedPosition, setSelectedPosition,
-        aviableSymbols, setAviableSymbols,
         aviableTime, setAviableTime,
-        wordLength, setWordLength,
-        wordIndex, setWordIndex,
         difficult, setDifficult,
         attemps, setAttemps,
         winExperience, setWinExperience,
         winMoney, setWinMoney,
         winTime, setWinTime,
         hints, setHints
+    }
+}
+
+export const useGameStateAnnagrams = () => {
+    const defaultState = useDefaultState()
+
+    const [attachedSymbols, setAttachedSymbols] = useState([])
+    const [selectedPosition, setSelectedPosition] = useState(null)
+    const [aviableSymbols, setAviableSymbols] = useState(undefined)
+    const [wordLength, setWordLength] = useState(undefined)
+    const [wordIndex, setWordIndex] = useState(undefined)
+
+    return {
+        ...defaultState,
+        attachedSymbols, setAttachedSymbols,
+        selectedPosition, setSelectedPosition,
+        aviableSymbols, setAviableSymbols,
+        wordLength, setWordLength,
+        wordIndex, setWordIndex
+    }
+}
+
+export const useGameStateMemory = () => {
+    const defaultState = useDefaultState()
+
+    const [grid, setGrid] = useState(undefined)
+    const [column, setColumn] = useState(undefined)
+    const [row, setRow] = useState(undefined)
+
+    return {
+        ...defaultState,
+        column, setColumn,
+        grid, setGrid,
+        row, setRow
     }
 }
