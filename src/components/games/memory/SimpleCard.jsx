@@ -1,22 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 
 export const SimpleCard = ({
     value,
     isOpen,
     handleFlip,
-    isCorrect,
-    index
+    isCorrect
 }) => {
-    const [flippedCard, setFlippedCard] = useState(false);
-    const [isDisabled, setIsDisabled] = useState(false);
+    const [flippedCard, setFlippedCard] = useState(false)
+    const [isDisabled, setIsDisabled] = useState(false)
 
     useEffect(() => {
-        setFlippedCard(isOpen);
-    }, [isOpen]);
+        setFlippedCard(isOpen)
+    }, [isOpen])
 
     useEffect(() => {
-        setIsDisabled(isCorrect);
-    }, [isCorrect]);
+        setIsDisabled(isCorrect)
+    }, [isCorrect])
 
     return <button
         onClick={() => !isDisabled && handleFlip()}

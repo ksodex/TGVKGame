@@ -210,20 +210,18 @@ export const useGameLogicMemory = ({
 
     const handleValidate = async (x, y) => {
         try {
-            console.log("Validating card at position:", { x, y })
+            const newGrid = [...grid]
+            const cardIndex = x * column + y
+
+            newGrid[cardIndex] = {
+                ...newGrid[cardIndex],
+                isOpen: true
+            }
+            
+            setGrid(newGrid)
+
             const response = await axios.post("/games/memory/validate", { x, y })
             const data = response.data
-            console.log("Server response:", data)
-
-            if (!data || !data.field || !row || !column || !grid) {
-                console.error("Invalid data received from server or missing required state", {
-                    data,
-                    row,
-                    column,
-                    grid
-                })
-                return
-            }
 
             const flattenedField = []
 
@@ -234,8 +232,9 @@ export const useGameLogicMemory = ({
                 }
             }
 
-            const newGrid = grid.map((card, index) => {
+            const updatedGrid = grid.map((card, index) => {
                 const fieldCard = flattenedField[index]
+
                 return {
                     isOpen: fieldCard.opened,
                     isCorrect: fieldCard.opened && data.isValid ? true : card.isCorrect,
@@ -243,19 +242,19 @@ export const useGameLogicMemory = ({
                 }
             })
 
-            setGrid(newGrid)
+            setGrid(updatedGrid)
             setAttemps(data.attemptsLeft)
 
             if (!data.isValid && data.message !== "🃏 Pick one more") {
                 setTimeout(() => {
-                    const closedGrid = newGrid.map(card => ({
+                    const closedGrid = updatedGrid.map(card => ({
                         ...card,
                         isOpen: card.isCorrect ? true : false,
                         value: card.isCorrect ? card.value : null
                     }))
 
                     setGrid(closedGrid)
-                }, 1000)
+                }, 500)
             }
 
             if (data.win) {

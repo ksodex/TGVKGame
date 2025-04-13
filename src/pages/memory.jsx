@@ -1,19 +1,18 @@
 import { useRouterBack } from "@kokateam/router-vkminiapps"
 import { PanelHeader } from "@vkontakte/vkui"
 import { useRecoilState } from "recoil"
-import { useEffect, useState } from "react"
-
-import { SimpleCard } from "../components/games/memory/SimpleCard"
-import { LevelDifficult } from "../components/levelDifficult"
-// import { Button } from "../components/Button"
+import { useEffect } from "react"
 
 import { useGameStateMemory as useGameState } from "../hooks/state/useGameState"
-import { useTimer } from "../hooks/useTimer"
-import { useModal } from "../hooks/useModal"
 import { useGameLogicMemory as useGameLogic } from "../hooks/state/useGameLogic"
-import { useUser } from "../hooks/useUser"
+import { SimpleCard } from "../components/games/memory/SimpleCard"
+import { LevelTimeOut } from "../components/modals/LevelTimeOut"
+import { LevelDifficult } from "../components/levelDifficult"
 import { GameHeader } from "../components/GameHeader"
 import { formatTime } from "../utils/formatTime"
+import { useTimer } from "../hooks/useTimer"
+import { useModal } from "../hooks/useModal"
+import { useUser } from "../hooks/useUser"
 
 const levels = [
     { code: 4, levelName: "Детский", description: "По 4 карточки на столе" },
@@ -32,8 +31,8 @@ export const MemoryGame = () => {
 
     const {
         handleCreateRound,
-        handleValidate,
-    } = useGameLogic({ ...gameState, toBack })
+        handleValidate
+    } = useGameLogic({ ...gameState, setModal, toBack })
     const { money, hints } = useUser({ dependencies: [[]] })
 
     useTimer({
@@ -47,6 +46,24 @@ export const MemoryGame = () => {
             setAviableTime: gameState.setAviableTime
         }
     })
+
+    useEffect(() => {
+        if (
+            gameState.aviableTime === 0 &&
+            !gameState.modal
+        ) {
+            setModal(
+                <LevelTimeOut
+                    toBack={toBack}
+                    setModal={setModal}
+                    againVoid={() => {
+                        handleCreateRound(gameState.selectedLevel)
+                        setModal(null)
+                    }}
+                />
+            )
+        }
+    }, [gameState.aviableTime, gameState.modal, gameState.selectedLevel])
 
     return <main className="bg-[#f1f3f5] min-h-screen space-y-4">
         <PanelHeader
@@ -101,10 +118,10 @@ export const MemoryGame = () => {
                                 return <SimpleCard
                                     key={index}
                                     index={index}
+                                    value={card.value}
                                     isOpen={card.isOpen}
                                     isCorrect={card.isCorrect}
                                     handleFlip={() => handleValidate(x, y)}
-                                    value={card.value}
                                 />
                             })}
                         </div>
