@@ -1,7 +1,5 @@
 import axios from "axios"
-
 import { useRecoilState } from "recoil"
-
 import { ZeroAttempsModal } from "../../components/modals/ZeroAttempsModal"
 import { LevelPassed } from "../../components/modals/LevelPassed"
 import { formatTime } from "../../utils/formatTime"
@@ -38,7 +36,6 @@ export const useGameLogicAnnagrams = ({
 
             if (code) {
                 setAviableTime(data.availableTime)
-
                 setAviableSymbols(data.gameData.symbols)
                 setWordLength(data.gameData.wordLength)
                 setWordIndex(data.gameData.wordNumber)
@@ -113,7 +110,6 @@ export const useGameLogicAnnagrams = ({
     const getHint = async () => {
         try {
             const response = await axios.get("/games/annagrams/hint")
-
             const { id, symbol, index } = response.data
 
             if (!attachedSymbols || !attachedSymbols.length) {
@@ -134,7 +130,6 @@ export const useGameLogicAnnagrams = ({
             }
 
             setAttachedSymbols(newAttachedSymbols)
-
             return response.data
         } catch (error) {
             console.error("Error fetching hint:", error)
@@ -149,19 +144,15 @@ export const useGameLogicMemory = ({
     selectedLevel,
     setSelectedLevel,
     setAviableTime,
-    setAviableSymbols,
-    setWordLength,
-    setWordIndex,
     setDifficult,
     setAttemps,
-    setAttachedSymbols,
     column, setColumn,
     grid, setGrid,
     row, setRow,
-    attachedSymbols,
+    fields, setFields,
     attemps,
+    setModal,
     difficult,
-    wordIndex,
     setWinMoney,
     setWinExperience,
     setWinTime,
@@ -175,43 +166,139 @@ export const useGameLogicMemory = ({
             case 16: return { rows: 4, columns: 4 }
             case 20: return { rows: 5, columns: 4 }
             case 24: return { rows: 6, columns: 4 }
+            default: return { rows: 2, columns: 2 }
         }
     }
 
     const createGrid = (rows, columns) => {
         const totalCards = rows * columns
-        return new Array(totalCards).fill('?')
+
+        return Array(totalCards).fill().map(() => ({
+            isOpen: false,
+            isCorrect: false,
+            value: null
+        }))
     }
 
     const handleCreateRound = async (code) => {
         const gridData = getGridSize(code)
         const grid = createGrid(gridData.rows, gridData.columns)
-        console.log(gridData, grid)
 
         setGrid(grid)
         setRow(gridData.rows)
         setColumn(gridData.columns)
+        setFields([])
 
         try {
             const response = await axios.post("/games/memory/create", {
                 type: "memory",
-                difficult: 1
+                difficult: code
             })
 
             const { data } = response.data
 
             if (code) {
                 setAviableTime(data.availableTime)
-
                 setDifficult(data.difficult)
                 setAttemps(data.attemptsLeft)
                 setSelectedLevel(code)
             }
         } catch (error) {
-            console.error("Error fetching data:", error)
+            console.error("Error creating game:", error)
         }
     }
 
-    return { getGridSize, handleCreateRound, createGrid }
+    const handleValidate = async (x, y) => {
+        try {
+            console.log("Validating card at position:", { x, y })
+            const response = await axios.post("/games/memory/validate", { x, y })
+            const data = response.data
+            console.log("Server response:", data)
 
+            if (!data || !data.field || !row || !column || !grid) {
+                console.error("Invalid data received from server or missing required state", {
+                    data,
+                    row,
+                    column,
+                    grid
+                })
+                return
+            }
+
+            const flattenedField = []
+
+            for (let r = 0; r < row; r++) {
+                for (let c = 0; c < column; c++) {
+                    const card = data.field[r]?.[c] || { opened: false, value: null }
+                    flattenedField[r * column + c] = card
+                }
+            }
+
+            const newGrid = grid.map((card, index) => {
+                const fieldCard = flattenedField[index]
+                return {
+                    isOpen: fieldCard.opened,
+                    isCorrect: fieldCard.opened && data.isValid ? true : card.isCorrect,
+                    value: fieldCard.opened ? fieldCard.value : null
+                }
+            })
+
+            setGrid(newGrid)
+            setAttemps(data.attemptsLeft)
+
+            if (!data.isValid && data.message !== "🃏 Pick one more") {
+                setTimeout(() => {
+                    const closedGrid = newGrid.map(card => ({
+                        ...card,
+                        isOpen: card.isCorrect ? true : false,
+                        value: card.isCorrect ? card.value : null
+                    }))
+
+                    setGrid(closedGrid)
+                }, 1000)
+            }
+
+            if (data.win) {
+                setWinMoney(data.money)
+                setWinExperience(data.expReceived)
+                setWinTime(data.timeLeft)
+                setModal(
+                    <LevelPassed
+                        againVoid={() => handleCreateRound(selectedLevel)}
+                        setModal={setModal}
+                        toBack={toBack}
+                        data={{
+                            winExperience: data.expReceived,
+                            winMoney: data.money,
+                            winTime: formatTime(data.timeLeft)
+                        }}
+                    />
+                )
+            }
+
+            return data
+        } catch (error) {
+            console.error("Error validating card:", error)
+        }
+    }
+
+    const getCardCoordinates = (rows, columns) => {
+        const coordinates = []
+
+        for (let y = 0; y < rows; y++) {
+            for (let x = 0; x < columns; x++) {
+                coordinates.push({ x, y })
+            }
+        }
+
+        return coordinates
+    }
+
+    return {
+        createGrid,
+        getGridSize,
+        handleValidate,
+        handleCreateRound,
+        getCardCoordinates
+    }
 }

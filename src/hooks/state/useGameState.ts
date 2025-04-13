@@ -44,13 +44,15 @@ export const useGameStateAnnagrams = () => {
 export const useGameStateMemory = () => {
     const defaultState = useDefaultState()
 
-    const [grid, setGrid] = useState(undefined)
     const [column, setColumn] = useState(undefined)
+    const [fields, setFields] = useState([])
+    const [grid, setGrid] = useState(undefined)
     const [row, setRow] = useState(undefined)
 
     return {
         ...defaultState,
         column, setColumn,
+        fields, setFields,
         grid, setGrid,
         row, setRow
     }
