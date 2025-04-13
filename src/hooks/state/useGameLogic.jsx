@@ -1,5 +1,7 @@
 import axios from "axios"
+
 import { useRecoilState } from "recoil"
+
 import { ZeroAttempsModal } from "../../components/modals/ZeroAttempsModal"
 import { LevelPassed } from "../../components/modals/LevelPassed"
 import { formatTime } from "../../utils/formatTime"
@@ -76,7 +78,11 @@ export const useGameLogicAnnagrams = ({
 
                 if (attemps - 1 !== 0) setAttemps(attemps - 1)
                 else setModal(
-                    <ZeroAttempsModal setModal={setModal} toBack={toBack} />
+                    <ZeroAttempsModal
+                        gameType={"annagrams"}
+                        setModal={setModal}
+                        toBack={toBack}
+                    />
                 )
             }
 
@@ -217,7 +223,7 @@ export const useGameLogicMemory = ({
                 ...newGrid[cardIndex],
                 isOpen: true
             }
-            
+
             setGrid(newGrid)
 
             const response = await axios.post("/games/memory/validate", { x, y })
@@ -254,6 +260,16 @@ export const useGameLogicMemory = ({
                     }))
 
                     setGrid(closedGrid)
+
+                    if (attemps - 1 !== 0) setAttemps(attemps - 1)
+                    else setModal(
+                        <ZeroAttempsModal
+                            gameType={"memory"}
+                            setModal={setModal}
+                            toBack={toBack}
+                        />
+                    )
+
                 }, 500)
             }
 

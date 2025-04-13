@@ -34,7 +34,7 @@ const categoryes = [
 
 export const AnagramsGame = () => {
     const gameState = useGameState()
-    const { money, hints } = useUser({ dependencies: [] })
+    const { money, hints } = useUser({ dependencies: [[]] })
     const [modal, setModal] = useRecoilState(useModal)
     const toBack = useRouterBack()
 
