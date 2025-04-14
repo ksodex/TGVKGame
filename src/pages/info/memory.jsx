@@ -1,0 +1,126 @@
+import { useRouterBack } from "@kokateam/router-vkminiapps"
+import { PanelHeader } from "@vkontakte/vkui"
+
+export const MemoryInfo = () => {
+    const toBack = useRouterBack()
+
+    return <section className="bg-[#f1f3f5] min-h-screen space-y-4">
+        <PanelHeader
+            before={
+                <button className="ml-5" onClick={() => toBack(-1)}>
+                    <svg
+                        width="18"
+                        height="16"
+                        viewBox="0 0 18 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M7.29289 0.292893C7.68342 -0.0976311 8.31658 -0.0976311 8.70711 0.292893C9.09763 0.683418 9.09763 1.31658 8.70711 1.70711L3.414 7H17C17.5128 7 17.9355 7.38604 17.9933 7.88338L18 8C18 8.55228 17.5523 9 17 9H3.414L8.70711 14.2929C9.06759 14.6534 9.09532 15.2206 8.7903 15.6129L8.70711 15.7071C8.31658 16.0976 7.68342 16.0976 7.29289 15.7071L0.292893 8.70711L0.219689 8.62545C0.217372 8.62256 0.215071 8.61966 0.212786 8.61675C0.207285 8.60984 0.201753 8.6026 0.196334 8.59531C0.17849 8.57113 0.161719 8.54628 0.146068 8.52066C0.138607 8.50861 0.131499 8.49639 0.124671 8.48406C0.113794 8.46429 0.103377 8.44389 0.0936537 8.4231C0.0856789 8.4061 0.0781966 8.3888 0.0712256 8.37134C0.0633159 8.35158 0.0561225 8.3318 0.0495467 8.31174C0.0447288 8.29685 0.0400979 8.28146 0.0358453 8.26599C0.0298338 8.24444 0.0246396 8.22275 0.020165 8.20079C0.016702 8.18338 0.0136281 8.16595 0.0110178 8.14847C0.00376119 8.10036 0 8.05062 0 8L0.00396633 8.08925C0.0018949 8.066 0.000634706 8.04268 0.000185966 8.01935L0 8C0 7.99359 6.03044e-05 7.9872 0.000180244 7.98082C0.000599384 7.95798 0.00186552 7.93433 0.00396633 7.91075C0.00576604 7.89015 0.00811212 7.8705 0.0110192 7.85104C0.013628 7.83405 0.0167024 7.81663 0.0202403 7.79927C0.02464 7.77725 0.0298335 7.75556 0.0357208 7.73416C0.0400976 7.71854 0.0447286 7.70315 0.0497379 7.68786C0.0561223 7.6682 0.0633158 7.64842 0.071104 7.62894C0.0781965 7.61121 0.0856789 7.5939 0.0936732 7.57678C0.103377 7.55611 0.113794 7.53571 0.124876 7.51572C0.131499 7.50361 0.138607 7.49139 0.145996 7.47929C0.161719 7.45373 0.17849 7.42887 0.196313 7.40484C0.225313 7.36567 0.257499 7.32829 0.292893 7.29289L0.212786 7.38325C0.237669 7.35153 0.264427 7.32136 0.292893 7.29289L7.29289 0.292893Z"
+                            fill="#FF4800"
+                        />
+                    </svg>
+                </button>
+            }
+            separator={true}
+        >
+            <span className="flex justify-center text-md text-[#FF4800]">
+                Об игре
+            </span>
+        </PanelHeader>
+
+        <div className="space-y-4 m-4">
+            <h1 className="text-3xl font-bold text-center">Мемори</h1>
+
+            <div className="bg-white rounded-md space-y-2 p-2">
+                <h1 className="text-xl font-bold">Суть игры</h1>
+                <span>Запомни карты, найди все пары и собери максимальные монеты! Подсказки, турниры и секреты ждут тебя. Сможешь пройти 24 карты за 150 сек?</span>
+            </div>
+
+            <div className="bg-white rounded-md space-y-2 p-2">
+                <h1 className="text-xl font-bold">Правила игры: </h1>
+
+                <div className="space-y-1">
+                    <h1 className="font-semibold">Цель: </h1>
+                    <p>Найти все парные карты на поле за отведённое время, минимизируя ошибки.</p>
+                </div>
+
+                <div className="space-y-1">
+                    <h1 className="font-semibold">Уровни сложности: </h1>
+
+                    <ul className="ml-4">
+                        <li className="list-disc">
+                            <span className="font-semibold">Уровень 1: </span>
+                            4 карты (2 пары).
+                        </li>
+                        <li className="list-disc">
+                            <span className="font-semibold">Уровень 2: </span>
+                            6 карт (3 пары).
+                        </li>
+                        <li className="list-disc">
+                            <span className="font-semibold">Уровень 3: </span>
+                            12 карт (6 пар).
+                        </li>
+                        <li className="list-disc">
+                            <span className="font-semibold">Уровень 4: </span>
+                            16 карт (8 пар).
+                        </li>
+                        <li className="list-disc">
+                            <span className="font-semibold">Уровень 5: </span>
+                            20 карт (10 пар).
+                        </li>
+                        <li className="list-disc">
+                            <span className="font-semibold">Уровень 6: </span>
+                            24 карты (12 пар).
+                        </li>
+                    </ul>
+                </div>
+
+                <div className="space-y-1">
+                    <h1 className="font-semibold">Как играть: </h1>
+
+                    <ul className="ml-4">
+                        <li className="list-disc">Карты перевёрнуты рубашкой вверх.</li>
+                        <li className="list-disc">Кликай по двум картам, чтобы открыть их.</li>
+                        <li className="list-disc">Нажимай на них для составления слова.</li>
+                        <li className="list-disc">Если нет — переворачиваются обратно.</li>
+                    </ul>
+                </div>
+
+                <div className="space-y-1">
+                    <h1 className="font-semibold">Подсказки: </h1>
+
+                    <ul className="ml-4">
+                        <li className="list-disc">
+                            <span className="font-semibold">Показать пару на 3 сек: </span>
+                            Стоимость 10–60 монет (зависит от уровня).
+                        </li>
+                    </ul>
+                </div>
+
+                <div className="space-y-1">
+                    <h1 className="font-semibold">Награды: </h1>
+
+                    <ul className="ml-4">
+                        <li className="list-disc">
+                            <span className="font-semibold">Монеты: </span>
+                            50–300 за уровень.
+                        </li>
+                    </ul>
+                </div>
+
+                <div className="space-y-1">
+                    <h1 className="font-semibold">Штрафы: </h1>
+
+                    <ul className="ml-4">
+                        <li className="list-disc">Неправильный ответ → - 1 попытка.</li>
+                        <li className="list-disc">Закончились попытки → уровень провален.</li>
+                        <li className="list-disc">Закончилось время → уровень провален.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+export default MemoryInfo

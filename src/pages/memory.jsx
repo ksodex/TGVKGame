@@ -1,4 +1,4 @@
-import { useRouterBack } from "@kokateam/router-vkminiapps"
+import { useRouterBack, useRouterPanel } from "@kokateam/router-vkminiapps"
 import { PanelHeader } from "@vkontakte/vkui"
 import { useRecoilState } from "recoil"
 import { useEffect } from "react"
@@ -30,6 +30,7 @@ export const MemoryGame = () => {
     const toBack = useRouterBack()
 
     const [modal, setModal] = useRecoilState(useModal)
+    const [_, toPanel] = useRouterPanel()
 
     const {
         handleCreateRound,
@@ -98,6 +99,8 @@ export const MemoryGame = () => {
                 !gameState.selectedLevel ?
                     <LevelDifficult
                         levels={levels}
+                        gameType={"memory"}
+                        toPanel={toPanel}
                         handleInitializeRound={handleCreateRound}
                     /> :
 

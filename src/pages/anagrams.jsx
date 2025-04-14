@@ -1,4 +1,4 @@
-import { useRouterBack } from "@kokateam/router-vkminiapps"
+import { useRouterPanel, useRouterBack } from "@kokateam/router-vkminiapps"
 import { PanelHeader } from "@vkontakte/vkui"
 import { useRecoilState } from "recoil"
 import { useEffect } from "react"
@@ -19,6 +19,7 @@ import { useTimer } from "../hooks/useTimer"
 import { useModal } from "../hooks/useModal"
 import { useUser } from "../hooks/useUser"
 
+
 const levels = [
     { code: 4, levelName: "Детский", description: "Слова из 4-5 букв" },
     { code: 6, levelName: "Простой", description: "Слова из 6-7 букв" },
@@ -36,6 +37,7 @@ export const AnagramsGame = () => {
     const gameState = useGameState()
     const { money, hints } = useUser({ dependencies: [[]] })
     const [modal, setModal] = useRecoilState(useModal)
+    const [_, toPanel] = useRouterPanel()
     const toBack = useRouterBack()
 
     const { handleCreateRound, checkWord, getHint } = useGameLogic({ ...gameState, toBack })
@@ -113,7 +115,9 @@ export const AnagramsGame = () => {
         {
             !gameState.selectedLevel ?
                 <LevelDifficult
+                    toPanel={toPanel}
                     levels={levels}
+                    gameType={"anagrams"}
                     categoryes={categoryes}
                     handleInitializeRound={handleCreateRound}
                 /> :

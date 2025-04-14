@@ -8,10 +8,12 @@ import { useModal } from "./hooks/useModal"
 import { useRecoilState } from "recoil"
 
 const MainPage = lazy(() => import("./pages/main.jsx"))
+const AboutPage = lazy(() => import("./pages/about.jsx"))
 const RatingPage = lazy(() => import("./pages/rating.jsx"))
 const MemoryGame = lazy(() => import("./pages/memory.jsx"))
 const AnagramsGame = lazy(() => import("./pages/anagrams.jsx"))
-const AboutPage = lazy(() => import("./pages/about.jsx"))
+const AnagramsInfo = lazy(() => import("./pages/info/anagrams.jsx"))
+const MemoryInfo = lazy(() => import("./pages/info/memory.jsx"))
 
 const App = () => {
     const [modal] = useRecoilState(useModal)
@@ -41,11 +43,24 @@ const App = () => {
                         </Suspense>
                     </Panel>
 
+                    <Panel id="anagramsInfo">
+                        <Suspense fallback={<ScreenSpinner />}>
+                            <AnagramsInfo />
+                        </Suspense>
+                    </Panel>
+
+                    <Panel id="memoryInfo">
+                        <Suspense fallback={<ScreenSpinner />}>
+                            <MemoryInfo />
+                        </Suspense>
+                    </Panel>
+
                     <Panel id="word-bot">
                         <Suspense fallback={<ScreenSpinner />}>
                             <AnagramsGame />
                         </Suspense>
                     </Panel>
+
                     <Panel id="memory">
                         <Suspense fallback={<ScreenSpinner />}>
                             <MemoryGame />
