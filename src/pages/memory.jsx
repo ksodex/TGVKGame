@@ -8,11 +8,13 @@ import { useGameLogicMemory as useGameLogic } from "../hooks/state/useGameLogic"
 import { SimpleCard } from "../components/games/memory/SimpleCard"
 import { LevelTimeOut } from "../components/modals/LevelTimeOut"
 import { LevelDifficult } from "../components/levelDifficult"
+import { UsingHint } from "../components/modals/UsingHint"
 import { GameHeader } from "../components/GameHeader"
 import { formatTime } from "../utils/formatTime"
 import { useTimer } from "../hooks/useTimer"
 import { useModal } from "../hooks/useModal"
 import { useUser } from "../hooks/useUser"
+
 
 const levels = [
     { code: 4, levelName: "Детский", description: "По 4 карточки на столе" },
@@ -31,10 +33,11 @@ export const MemoryGame = () => {
 
     const {
         handleCreateRound,
-        handleValidate
+        handleValidate,
+        getHint
     } = useGameLogic({ ...gameState, setModal, toBack })
     const { money, hints } = useUser({ dependencies: [[]] })
-
+    // getHint().then()
     useTimer({
         dependencies: {
             selectedLevel: gameState.selectedLevel,
@@ -107,10 +110,15 @@ export const MemoryGame = () => {
                                 hints: String(hints)
                             }}
 
-                            hintOnClick={() => setModal(<UsingHint setModal={setModal} gameState={gameState} />)}
+                            hintOnClick={() => setModal(
+                                <UsingHint
+                                    setModal={setModal}
+                                    gameState={gameState}
+                                />
+                            )}
                         />
 
-                        <div className="grid m-2 p-2" style={{ gridTemplateColumns: `repeat(${gameState.column}, 1fr)` }}>
+                        <div className="grid gap-1 p-2" style={{ gridTemplateColumns: `repeat(${gameState.column}, 1fr)` }}>
                             {gameState.grid.map((card, index) => {
                                 const x = Math.floor(index / gameState.column)
                                 const y = index % gameState.column

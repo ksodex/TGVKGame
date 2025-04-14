@@ -11,6 +11,7 @@ const MainPage = lazy(() => import("./pages/main.jsx"))
 const RatingPage = lazy(() => import("./pages/rating.jsx"))
 const MemoryGame = lazy(() => import("./pages/memory.jsx"))
 const AnagramsGame = lazy(() => import("./pages/anagrams.jsx"))
+const AboutPage = lazy(() => import("./pages/about.jsx"))
 
 const App = () => {
     const [modal] = useRecoilState(useModal)
@@ -31,6 +32,12 @@ const App = () => {
                     <Panel id="rating">
                         <Suspense fallback={<ScreenSpinner />}>
                             <RatingPage />
+                        </Suspense>
+                    </Panel>
+
+                    <Panel id="about">
+                        <Suspense fallback={<ScreenSpinner />}>
+                            <AboutPage />
                         </Suspense>
                     </Panel>
 

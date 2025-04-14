@@ -38,7 +38,8 @@ export const AnagramsGame = () => {
     const [modal, setModal] = useRecoilState(useModal)
     const toBack = useRouterBack()
 
-    const { handleCreateRound, checkWord } = useGameLogic({ ...gameState, toBack })
+    const { handleCreateRound, checkWord, getHint } = useGameLogic({ ...gameState, toBack })
+
     const { handlePositionSelect, handleSymbolClick, handleRemoveLastSymbol } =
         useSymbolInteraction(gameState)
 
@@ -125,7 +126,13 @@ export const AnagramsGame = () => {
                             hints: String(hints)
                         }}
 
-                        hintOnClick={() => setModal(<UsingHint setModal={setModal} gameState={gameState} />)}
+                        hintOnClick={() => setModal(
+                            <UsingHint
+                                getHint={getHint}
+                                setModal={setModal}
+                                gameState={gameState}
+                            />)
+                        }
                     />
                     <div className="flex gap-3">
                         <WordInput

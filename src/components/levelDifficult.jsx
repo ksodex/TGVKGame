@@ -1,8 +1,6 @@
 import { Button } from "./Button"
 import { useState } from "react"
 
-
-
 export const LevelDifficult = ({
     levels,
     categoryes,

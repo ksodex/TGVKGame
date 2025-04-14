@@ -2,19 +2,8 @@ import { useGameLogicAnnagrams as useGameLogic } from "../../hooks/state/useGame
 import { useUser } from "../../hooks/useUser"
 import { Button } from "../Button"
 
-export const UsingHint = ({ setModal, gameState }) => {
+export const UsingHint = ({ setModal, gameState, getHint }) => {
     const { setMoney, setHints } = useUser({ dependencies: [] })
-    
-    if (!gameState || !gameState.selectedLevel || !gameState.attachedSymbols || !gameState.attachedSymbols.length) {
-        console.error("Game not initialized", gameState)
-        return null
-    }
-    
-    const { getHint } = useGameLogic({ 
-        ...gameState,
-        attachedSymbols: gameState.attachedSymbols,
-        setAttachedSymbols: gameState.setAttachedSymbols
-    })
 
     const handleUseHint = async () => {
         try {
@@ -27,7 +16,7 @@ export const UsingHint = ({ setModal, gameState }) => {
                         return prev - 1
                     })
                 })
-                
+
                 setModal(null)
             }
         } catch (error) {

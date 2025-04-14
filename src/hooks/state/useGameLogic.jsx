@@ -297,6 +297,17 @@ export const useGameLogicMemory = ({
         }
     }
 
+    const getHint = async () => {
+        try {
+            const response = await axios.get("/games/memory/hint")
+            console.log(await response.data)
+            return response.data
+        } catch (error) {
+            console.error("Error fetching hint:", error)
+            return null
+        }
+    }
+
     const getCardCoordinates = (rows, columns) => {
         const coordinates = []
 
@@ -310,6 +321,7 @@ export const useGameLogicMemory = ({
     }
 
     return {
+        getHint,
         createGrid,
         getGridSize,
         handleValidate,
