@@ -28,10 +28,10 @@ export const useGameLogicAnnagrams = ({
 }) => {
     const [modal, setModal] = useRecoilState(useModal)
 
-    const handleCreateRound = async (code) => {
+    const handleCreateRound = async (code, category) => {
         try {
             const response = await axios.post("/games/annagrams/create", {
-                type: "animals",
+                type: category,
                 difficult: code
             })
             const { data } = response.data

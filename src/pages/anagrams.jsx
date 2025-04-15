@@ -28,9 +28,9 @@ const levels = [
 ]
 
 const categoryes = [
-    { id: 0, title: "Животные" },
-    { id: 1, title: "Фрукты" },
-    { id: 2, title: "Города" }
+    { id: 0, title: "Животные", type: "animals" },
+    { id: 1, title: "Фрукты", type: "fruits" },
+    { id: 2, title: "Города", type: "cities" }
 ]
 
 export const AnagramsGame = () => {

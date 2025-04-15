@@ -1,5 +1,5 @@
 import { Button } from "./Button"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export const LevelDifficult = ({
     levels,
@@ -8,8 +8,13 @@ export const LevelDifficult = ({
     categoryes,
     handleInitializeRound
 }) => {
+    const [categoryType, setCategoryType] = useState("animals")
     const [level, setLevel] = useState(undefined)
     const [category, setCategory] = useState(0)
+
+    // useEffect(() => {
+    //     console.log(category)
+    // }, [category])
 
     return <div className="space-y-4">
         {
@@ -21,7 +26,7 @@ export const LevelDifficult = ({
                     {categoryes.map((item, index) => (
                         <div
                             className={`${category === item.id ? "bg-[#430B51] text-white" : "bg-white text-[#FF4800]"} rounded-md font-semibold transition-colors w-full p-2`}
-                            onClick={() => setCategory(item.id)}
+                            onClick={() => {setCategory(item.id); setCategoryType(item.type)}}
                             key={index}
                         >
                             <span>{item.title}</span>
@@ -49,7 +54,7 @@ export const LevelDifficult = ({
 
             <div className="flex gap-4 fixed bottom-0 left-0 right-0 bg-white p-4 pb-8 shadow-lg">
                 <Button
-                    onClick={() => handleInitializeRound(level)}
+                    onClick={() => handleInitializeRound(level, categoryType)}
                     isFulled
                 >
                     <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
