@@ -2,7 +2,7 @@ import axios from "axios"
 
 import { Button } from "../Button"
 
-export const ZeroAttempsModal = ({ setModal, toBack, gameType }) => {
+export const ZeroAttempsModal = ({ againVoid, setModal, toBack, gameType }) => {
     const fetchData = async () => {
         const response = await axios.post(`/games/${gameType}/buyAttempt`)
         const data = await response.data
@@ -17,6 +17,7 @@ export const ZeroAttempsModal = ({ setModal, toBack, gameType }) => {
 
     const handleBuy = async () => {
         await fetchData()
+        againVoid()
         setModal(null)
     }
 

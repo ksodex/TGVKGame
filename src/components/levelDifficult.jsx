@@ -6,27 +6,38 @@ export const LevelDifficult = ({
     toPanel,
     gameType,
     categoryes,
+    selectedCategory,
+    setSelectedCategory,
     handleInitializeRound
 }) => {
-    const [categoryType, setCategoryType] = useState("animals")
     const [level, setLevel] = useState(undefined)
-    const [category, setCategory] = useState(0)
 
-    // useEffect(() => {
-    //     console.log(category)
-    // }, [category])
+    const handleInitRound = () => {
+        switch (gameType) {
+            case "memory":
+                handleInitializeRound(level)
+                break
+        
+            case "anagrams":
+                handleInitializeRound(level, selectedCategory.type)
+
+            default:
+                console.error("Game not found. Contact us administrator")
+                break
+        }
+    }
 
     return <div className="space-y-4">
         {
             categoryes &&
             <div>
-                <h1 className="text-3xl text-center font-bold">Уровень сложности</h1>
+                <h1 className="text-3xl text-center font-bold">Категории</h1>
 
                 <div className="flex gap-3 p-2 m-2">
                     {categoryes.map((item, index) => (
                         <div
-                            className={`${category === item.id ? "bg-[#430B51] text-white" : "bg-white text-[#FF4800]"} rounded-md font-semibold transition-colors w-full p-2`}
-                            onClick={() => {setCategory(item.id); setCategoryType(item.type)}}
+                            className={`${selectedCategory.id === item.id ? "bg-[#430B51] text-white" : "bg-white text-[#FF4800]"} rounded-md font-semibold transition-colors w-full p-2`}
+                            onClick={() => setSelectedCategory(item)}
                             key={index}
                         >
                             <span>{item.title}</span>
@@ -54,7 +65,7 @@ export const LevelDifficult = ({
 
             <div className="flex gap-4 fixed bottom-0 left-0 right-0 bg-white p-4 pb-8 shadow-lg">
                 <Button
-                    onClick={() => handleInitializeRound(level, categoryType)}
+                    onClick={handleInitRound}
                     isFulled
                 >
                     <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">

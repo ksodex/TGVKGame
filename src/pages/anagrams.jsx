@@ -19,7 +19,6 @@ import { useTimer } from "../hooks/useTimer"
 import { useModal } from "../hooks/useModal"
 import { useUser } from "../hooks/useUser"
 
-
 const levels = [
     { code: 4, levelName: "Детский", description: "Слова из 4-5 букв" },
     { code: 6, levelName: "Простой", description: "Слова из 6-7 букв" },
@@ -35,12 +34,12 @@ const categoryes = [
 
 export const AnagramsGame = () => {
     const gameState = useGameState()
-    const { money, hints } = useUser({ dependencies: [[]] })
+    const { money, hints, getUserData } = useUser({ dependencies: [[]] })
     const [modal, setModal] = useRecoilState(useModal)
     const [_, toPanel] = useRouterPanel()
     const toBack = useRouterBack()
 
-    const { handleCreateRound, checkWord, getHint } = useGameLogic({ ...gameState, toBack })
+    const { handleCreateRound, checkWord, getHint } = useGameLogic({ ...gameState, toBack, getUserData })
 
     const { handlePositionSelect, handleSymbolClick, handleRemoveLastSymbol } =
         useSymbolInteraction(gameState)
@@ -67,7 +66,7 @@ export const AnagramsGame = () => {
                     toBack={toBack}
                     setModal={setModal}
                     againVoid={() => {
-                        handleCreateRound(gameState.selectedLevel)
+                        handleCreateRound(gameState.selectedLevel, gameState.selectedCategory.type)
                         setModal(null)
                     }}
                 />
@@ -120,6 +119,8 @@ export const AnagramsGame = () => {
                     gameType={"anagrams"}
                     categoryes={categoryes}
                     handleInitializeRound={handleCreateRound}
+                    selectedCategory={gameState.selectedCategory}
+                    setSelectedCategory={gameState.setSelectedCategory}
                 /> :
                 <section className="space-y-4 text-[#430B51] p-2 m-2">
                     <GameHeader

@@ -37,7 +37,7 @@ export const SimpleCard = ({
                 className="absolute rounded-md border-2 border-[#430B51] overflow-hidden w-full h-full flex justify-center items-center text-black backface-hidden"
                 style={{ transform: "rotateY(180deg)" }}
             >
-                <h1 className="text-3xl font-bold">{value}</h1>
+                <h1 className="text-6xl font-bold">{value}</h1>
             </div>
         </div>
     </button>

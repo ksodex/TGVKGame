@@ -55,7 +55,7 @@ const App = () => {
                         </Suspense>
                     </Panel>
 
-                    <Panel id="word-bot">
+                    <Panel id="anagrams">
                         <Suspense fallback={<ScreenSpinner />}>
                             <AnagramsGame />
                         </Suspense>

@@ -1,7 +1,7 @@
 import { useRouterBack, useRouterPanel } from "@kokateam/router-vkminiapps"
 import { PanelHeader } from "@vkontakte/vkui"
 import { useRecoilState } from "recoil"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { useGameStateMemory as useGameState } from "../hooks/state/useGameState"
 import { useGameLogicMemory as useGameLogic } from "../hooks/state/useGameLogic"
@@ -14,7 +14,6 @@ import { formatTime } from "../utils/formatTime"
 import { useTimer } from "../hooks/useTimer"
 import { useModal } from "../hooks/useModal"
 import { useUser } from "../hooks/useUser"
-
 
 const levels = [
     { code: 4, levelName: "Детский", description: "По 4 карточки на столе" },
@@ -32,13 +31,18 @@ export const MemoryGame = () => {
     const [modal, setModal] = useRecoilState(useModal)
     const [_, toPanel] = useRouterPanel()
 
+    
+
+    const { money, hints, getUserData } = useUser({
+        dependencies: [gameState.aviableTime, gameState.attemps]
+    })
+
     const {
         handleCreateRound,
         handleValidate,
         getHint
-    } = useGameLogic({ ...gameState, setModal, toBack })
-    const { money, hints } = useUser({ dependencies: [[]] })
-    // getHint().then()
+    } = useGameLogic({ ...gameState, setModal, toBack, getUserData })
+
     useTimer({
         dependencies: {
             selectedLevel: gameState.selectedLevel,
@@ -133,6 +137,7 @@ export const MemoryGame = () => {
                                     isOpen={card.isOpen}
                                     isCorrect={card.isCorrect}
                                     handleFlip={() => handleValidate(x, y)}
+                                // disabled={isLocked}
                                 />
                             })}
                         </div>

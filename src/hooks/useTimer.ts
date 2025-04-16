@@ -43,5 +43,5 @@ export const useTimer = ({ dependencies, timerData }: IUseTimer) => {
                 timerRef.current = null
             }
         }
-    }, [selectedLevel, setAviableTime, modal])
+    }, [selectedLevel, aviableTime, modal])
 }

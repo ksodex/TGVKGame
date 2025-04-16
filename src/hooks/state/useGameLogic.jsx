@@ -9,6 +9,7 @@ import { useModal } from "../useModal"
 
 export const useGameLogicAnnagrams = ({
     selectedLevel,
+    selectedCategory,
     setSelectedLevel,
     setAviableTime,
     setAviableSymbols,
@@ -24,7 +25,8 @@ export const useGameLogicAnnagrams = ({
     setWinMoney,
     setWinExperience,
     setWinTime,
-    toBack
+    toBack,
+    getUserData
 }) => {
     const [modal, setModal] = useRecoilState(useModal)
 
@@ -55,7 +57,7 @@ export const useGameLogicAnnagrams = ({
         }
     }
 
-    const handleValidateWord = async (type, difficult, wordIndex, result) => {
+    const handleValidate = async (type, difficult, wordIndex, result) => {
         try {
             const response = await axios.post("/games/annagrams/validate", {
                 type,
@@ -82,6 +84,11 @@ export const useGameLogicAnnagrams = ({
                         gameType={"annagrams"}
                         setModal={setModal}
                         toBack={toBack}
+                        againVoid={() => {
+                            getUserData().then(data => {
+                                setWinMoney(data.money)
+                            })
+                        }}
                     />
                 )
             }
@@ -93,12 +100,15 @@ export const useGameLogicAnnagrams = ({
     }
 
     const checkWord = (word) => {
-        handleValidateWord("animals", difficult, wordIndex, word).then(data => {
+        handleValidate("animals", difficult, wordIndex, word).then(data => {
             if (data.isCorrect) {
                 setModal(
                     <LevelPassed
                         againVoid={() => {
-                            handleCreateRound(selectedLevel)
+                            handleCreateRound(selectedLevel, selectedCategory.type)
+                            getUserData().then(data => {
+                                setWinMoney(data.money)
+                            })
                         }}
                         setModal={setModal}
                         toBack={toBack}
@@ -143,7 +153,7 @@ export const useGameLogicAnnagrams = ({
         }
     }
 
-    return { handleCreateRound, handleValidateWord, checkWord, getHint }
+    return { handleCreateRound, handleValidate, checkWord, getHint }
 }
 
 export const useGameLogicMemory = ({
@@ -152,17 +162,20 @@ export const useGameLogicMemory = ({
     setAviableTime,
     setDifficult,
     setAttemps,
-    column, setColumn,
-    grid, setGrid,
-    row, setRow,
-    fields, setFields,
+    setColumn,
+    setGrid,
+    setRow,
+    column,
+    grid,
+    row,
+    setFields,
     attemps,
     setModal,
-    difficult,
     setWinMoney,
     setWinExperience,
     setWinTime,
-    toBack
+    toBack,
+    getUserData
 }) => {
     const getGridSize = (level) => {
         switch (level) {
@@ -264,6 +277,11 @@ export const useGameLogicMemory = ({
                     if (attemps - 1 !== 0) setAttemps(attemps - 1)
                     else setModal(
                         <ZeroAttempsModal
+                            againVoid={() => {
+                                getUserData().then(data => {
+                                    setWinMoney(data.money)
+                                })
+                            }}
                             gameType={"memory"}
                             setModal={setModal}
                             toBack={toBack}
@@ -279,7 +297,12 @@ export const useGameLogicMemory = ({
                 setWinTime(data.timeLeft)
                 setModal(
                     <LevelPassed
-                        againVoid={() => handleCreateRound(selectedLevel)}
+                        againVoid={() => {
+                            handleCreateRound(selectedLevel)
+                            getUserData().then(data => {
+                                setWinMoney(data.money)
+                            })
+                        }}
                         setModal={setModal}
                         toBack={toBack}
                         data={{
@@ -300,7 +323,7 @@ export const useGameLogicMemory = ({
     const getHint = async () => {
         try {
             const response = await axios.get("/games/memory/hint")
-            console.log(await response.data)
+
             return response.data
         } catch (error) {
             console.error("Error fetching hint:", error)

@@ -25,6 +25,7 @@ const useDefaultState = () => {
 export const useGameStateAnnagrams = () => {
     const defaultState = useDefaultState()
 
+    const [selectedCategory, setSelectedCategory] = useState(0)
     const [attachedSymbols, setAttachedSymbols] = useState([])
     const [selectedPosition, setSelectedPosition] = useState(null)
     const [aviableSymbols, setAviableSymbols] = useState(undefined)
@@ -33,6 +34,7 @@ export const useGameStateAnnagrams = () => {
 
     return {
         ...defaultState,
+        selectedCategory, setSelectedCategory,
         attachedSymbols, setAttachedSymbols,
         selectedPosition, setSelectedPosition,
         aviableSymbols, setAviableSymbols,
