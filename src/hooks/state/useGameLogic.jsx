@@ -323,11 +323,33 @@ export const useGameLogicMemory = ({
     const getHint = async () => {
         try {
             const response = await axios.get("/games/memory/hint")
+            const data = response.data
+    
+            const newGrid = [...grid]
+    
+            data.hint.forEach(({ x, y, value }) => {
+                const index = x * column + y
 
-            return response.data
+                newGrid[index] = {
+                    ...newGrid[index],
+                    isOpen: true,
+                    value: value,
+                }
+            })
+    
+            setGrid(newGrid)
+            setAttemps(data.attemptsLeft)
+    
+            setTimeout(() => {
+                const resetGrid = newGrid.map((card) => ({
+                    ...card,
+                    isOpen: card.isCorrect ? true : false,
+                    value: card.isCorrect ? card.value : null,
+                }))
+                setGrid(resetGrid)
+            }, 3000)
         } catch (error) {
             console.error("Error fetching hint:", error)
-            return null
         }
     }
 

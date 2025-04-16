@@ -20,6 +20,7 @@ export const LevelDifficult = ({
         
             case "anagrams":
                 handleInitializeRound(level, selectedCategory.type)
+                break
 
             default:
                 console.error("Game not found. Contact us administrator")
@@ -40,7 +41,7 @@ export const LevelDifficult = ({
                             onClick={() => setSelectedCategory(item)}
                             key={index}
                         >
-                            <span>{item.title}</span>
+                            <p className="text-center">{item.title}</p>
                         </div>
                     ))}
                 </div>
@@ -50,7 +51,7 @@ export const LevelDifficult = ({
         <div>
             <h1 className="text-3xl text-center font-bold">Уровень сложности</h1>
 
-            <div className="flex flex-col space-y-3 p-2 m-2">
+            <div className="flex flex-col space-y-3 p-2 m-2 mb-20">
                 {levels.map((item, index) => (
                     <div
                         className={`${level === item.code ? "bg-[#430B51] text-white" : "bg-white"} rounded-xl transition-colors p-2`}

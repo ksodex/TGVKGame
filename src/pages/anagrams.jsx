@@ -39,7 +39,8 @@ export const AnagramsGame = () => {
     const [_, toPanel] = useRouterPanel()
     const toBack = useRouterBack()
 
-    const { handleCreateRound, checkWord, getHint } = useGameLogic({ ...gameState, toBack, getUserData })
+    const { handleCreateRound, checkWord, getHint } =
+        useGameLogic({ ...gameState, toBack, getUserData })
 
     const { handlePositionSelect, handleSymbolClick, handleRemoveLastSymbol } =
         useSymbolInteraction(gameState)
@@ -136,8 +137,8 @@ export const AnagramsGame = () => {
                                 getHint={getHint}
                                 setModal={setModal}
                                 gameState={gameState}
-                            />)
-                        }
+                            />
+                        )}
                     />
                     <div className="flex gap-3">
                         <WordInput

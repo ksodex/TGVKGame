@@ -31,17 +31,12 @@ export const MemoryGame = () => {
     const [modal, setModal] = useRecoilState(useModal)
     const [_, toPanel] = useRouterPanel()
 
-    
-
     const { money, hints, getUserData } = useUser({
         dependencies: [gameState.aviableTime, gameState.attemps]
     })
 
-    const {
-        handleCreateRound,
-        handleValidate,
-        getHint
-    } = useGameLogic({ ...gameState, setModal, toBack, getUserData })
+    const { handleCreateRound, handleValidate, getHint } =
+        useGameLogic({ ...gameState, setModal, toBack, getUserData })
 
     useTimer({
         dependencies: {
@@ -119,6 +114,7 @@ export const MemoryGame = () => {
 
                             hintOnClick={() => setModal(
                                 <UsingHint
+                                    getHint={getHint}
                                     setModal={setModal}
                                     gameState={gameState}
                                 />

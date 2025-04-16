@@ -112,7 +112,7 @@ const RatingPage = () => {
                     )}
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-4 mb-20">
                     {users.map((item, index) => (
                         <div key={index} className="flex justify-between items-center">
                             <div className="flex items-center space-x-2">
@@ -152,7 +152,7 @@ const RatingPage = () => {
                 </div>
             </section>
 
-            <div className="flex justify-between gap-4 fixed bottom-0 left-0 right-0 p-4 pb-8 shadow-black shadow-2xl">
+            <div className="flex fixed bg-white justify-between gap-4 bottom-0 left-0 right-0 p-4 pb-8 shadow-black shadow-2xl">
                 <div className="flex items-center space-x-2">
                     <div
                         style={{
