@@ -35,8 +35,10 @@ export const MemoryGame = () => {
         dependencies: [gameState.aviableTime, gameState.attemps]
     })
 
+    const [isLocked, setIsLocked] = useState(false) // Add locked state
+
     const { handleCreateRound, handleValidate, getHint } =
-        useGameLogic({ ...gameState, setModal, toBack, getUserData })
+        useGameLogic({ ...gameState, setModal, toBack, getUserData, setIsLocked }) // Pass setIsLocked
 
     useTimer({
         dependencies: {
@@ -49,6 +51,22 @@ export const MemoryGame = () => {
             setAviableTime: gameState.setAviableTime
         }
     })
+
+    const [adw, setAdw] = useState(0)
+
+    useEffect(() => {
+        if (gameState.grid) {
+            for (const item of gameState.grid) {
+                if (item.isOpen) setAdw(adw + 1)
+            }
+
+            setIsLocked(true)
+            setTimeout(() => {
+                setIsLocked(false)
+
+            }, 1000)
+        }
+    }, [gameState.grid])
 
     useEffect(() => {
         if (
@@ -132,8 +150,8 @@ export const MemoryGame = () => {
                                     value={card.value}
                                     isOpen={card.isOpen}
                                     isCorrect={card.isCorrect}
+                                    isLocked={isLocked} // Pass isLocked to SimpleCard
                                     handleFlip={() => handleValidate(x, y)}
-                                // disabled={isLocked}
                                 />
                             })}
                         </div>

@@ -4,7 +4,8 @@ export const SimpleCard = ({
     value,
     isOpen,
     handleFlip,
-    isCorrect
+    isCorrect,
+    isLocked // Add isLocked prop
 }) => {
     const [flippedCard, setFlippedCard] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
@@ -14,8 +15,8 @@ export const SimpleCard = ({
     }, [isOpen])
 
     useEffect(() => {
-        setIsDisabled(isCorrect)
-    }, [isCorrect])
+        setIsDisabled(isCorrect || isLocked) // Disable card if correct or locked
+    }, [isCorrect, isLocked])
 
     return <button
         onClick={() => !isDisabled && handleFlip()}
