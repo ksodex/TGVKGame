@@ -16,8 +16,8 @@ export const UsingHint = ({ setModal, gameState, getHint }) => {
                         return prev - 1
                     })
                 })
-
-                setModal(null)
+                
+                setTimeout(() => setModal(null), 200)
             }
         } catch (error) {
             console.error("Error using hint:", error)

@@ -374,6 +374,8 @@ export const useGameLogicMemory = ({
                 }))
                 setGrid(resetGrid)
             }, 3000)
+
+            return response.data
         } catch (error) {
             console.error("Error fetching hint:", error)
         }
