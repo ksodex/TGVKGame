@@ -2,7 +2,7 @@ import axios from "axios"
 
 import { Button } from "../Button"
 
-export const ZeroAttempsModal = ({ againVoid, setModal, toBack, gameType }) => {
+export const ZeroAttempsModal = ({ againVoid, setModal, setSelectedLevel, gameType }) => {
     const fetchData = async () => {
         const response = await axios.post(`/games/${gameType}/buyAttempt`)
         const data = await response.data
@@ -10,9 +10,9 @@ export const ZeroAttempsModal = ({ againVoid, setModal, toBack, gameType }) => {
         return data
     }
 
-    const handleExit = () => {
-        setModal(null)
-        toBack(-1)
+    const exit = () => {
+        setSelectedLevel(undefined)
+        setInterval(() => setModal(null), 50)
     }
 
     const handleBuy = async () => {
@@ -29,7 +29,7 @@ export const ZeroAttempsModal = ({ againVoid, setModal, toBack, gameType }) => {
 
             <div className="flex gap-3">
                 <Button isFulled onClick={handleBuy}>Купить 2 попытки за 10</Button>
-                <Button onClick={handleExit} bgcolor="#430B51">Выйти</Button>
+                <Button onClick={exit} bgcolor="#430B51">Выйти</Button>
             </div>
         </div>
     </div>

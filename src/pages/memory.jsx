@@ -75,7 +75,7 @@ export const MemoryGame = () => {
         ) {
             setModal(
                 <LevelTimeOut
-                    toBack={toBack}
+                    setSelectedLevel={gameState.setSelectedLevel}
                     setModal={setModal}
                     againVoid={() => {
                         handleCreateRound(gameState.selectedLevel)
@@ -85,7 +85,7 @@ export const MemoryGame = () => {
             )
         }
     }, [gameState.aviableTime, gameState.modal, gameState.selectedLevel])
-    
+
     return <main className="bg-[#f1f3f5] min-h-screen space-y-4">
         <PanelHeader
             after={

@@ -64,7 +64,7 @@ export const AnagramsGame = () => {
         ) {
             setModal(
                 <LevelTimeOut
-                    toBack={toBack}
+                    setSelectedLevel={gameState.setSelectedLevel}
                     setModal={setModal}
                     againVoid={() => {
                         handleCreateRound(gameState.selectedLevel, gameState.selectedCategory.type)

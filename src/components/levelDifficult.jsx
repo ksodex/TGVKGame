@@ -32,7 +32,7 @@ export const LevelDifficult = ({
         {
             categoryes &&
             <div className="flex flex-col">
-                <h1 className="text-3xl text-center font-bold">Категории</h1>
+                <h1 className="text-3xl font-bold px-6">Категории</h1>
 
                 <div className="flex justify-center items-center px-4">
                     <button>
@@ -65,7 +65,7 @@ export const LevelDifficult = ({
         }
 
         <div>
-            <h1 className="text-3xl text-center font-bold">Уровень сложности</h1>
+            <h1 className="text-3xl font-bold px-6">Уровень сложности</h1>
 
             <div className="flex flex-col space-y-3 p-2 m-2 mb-20">
                 {levels.map((item, index) => (
@@ -80,14 +80,15 @@ export const LevelDifficult = ({
 
                         <div className="flex flex-col">
                             <div className="flex gap-2 p-1">
-                                <span>{item.winMoney}</span>
+                                <span className="text-[#FF4800] font-bold">{item.winMoney}</span>
+
                                 <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M20.4953 15.6782C20.3312 18.8094 15.851 21 10.5 21C5.04801 21 0.5 18.726 0.5 15.5V5.5L0.504656 5.32177C0.668755 2.19056 5.14898 0 10.5 0C15.952 0 20.5 2.27401 20.5 5.5V15.5L20.4953 15.6782ZM18.5011 8.8655C16.6646 10.1958 13.7422 11 10.5 11C7.25844 11 4.33644 10.1961 2.49992 8.86623L2.5 10.5C2.5 12.2446 6.01086 14 10.5 14C14.9891 14 18.5 12.2446 18.5 10.5L18.5011 8.8655ZM10.5 2C6.01086 2 2.5 3.75543 2.5 5.5C2.5 7.24457 6.01086 9 10.5 9C14.9891 9 18.5 7.24457 18.5 5.5C18.5 3.75543 14.9891 2 10.5 2ZM18.5011 13.8655C16.6646 15.1958 13.7422 16 10.5 16C7.25844 16 4.33644 15.1961 2.49992 13.8662L2.5 15.5L2.50517 15.6163C2.65652 17.3217 6.11062 19 10.5 19C14.9891 19 18.5 17.2446 18.5 15.5L18.5011 13.8655Z" fill="#FF4800"></path>
                                 </svg>
                             </div>
 
                             <div className="flex gap-2 p-1">
-                                <span>{item.winExp}</span>
+                                <span className="text-[#FF4800] font-bold">{item.winExp}</span>
                                 <h1 className="text-[#FF4800] uppercase font-bold">exp</h1>
                             </div>
                         </div>

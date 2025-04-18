@@ -83,7 +83,7 @@ export const useGameLogicAnnagrams = ({
                     <ZeroAttempsModal
                         gameType={"annagrams"}
                         setModal={setModal}
-                        toBack={toBack}
+                        setSelectedLevel={setSelectedLevel}
                         againVoid={() => {
                             getUserData().then(data => {
                                 setWinMoney(data.money)
@@ -310,7 +310,7 @@ export const useGameLogicMemory = ({
                             }}
                             gameType={"memory"}
                             setModal={setModal}
-                            toBack={toBack}
+                            setSelectedLevel={setSelectedLevel}
                         />
                     )
 
