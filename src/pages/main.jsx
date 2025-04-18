@@ -13,7 +13,7 @@ const MainPage = () => {
     const [activeCategory, setActiveCategory] = useState("Все")
 
     return <main className="bg-[#f1f3f5]">
-        <PanelHeader separator={true}>
+        <PanelHeader fixed separator={true}>
             <span className="flex justify-center text-md text-[#FF4800]">Игры</span>
         </PanelHeader>
 
@@ -32,8 +32,7 @@ const MainPage = () => {
                 <span>О приложении</span>
             </Button>
         </div>
-
-        <section className="min-h-screen space-y-4 mt-22 p-2">
+        <section className="min-h-screen space-y-4 mt-24 p-2">
             <div className="flex shrink-0 flex-nowrap space-x-2 overflow-x-auto w-full">
                 {itemsInfo.categoryes.map((item, index) => (
                     <Button

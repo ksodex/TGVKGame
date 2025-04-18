@@ -11,9 +11,8 @@ export const ZeroAttempsModal = ({ againVoid, setModal, setSelectedLevel, gameTy
     }
 
     const exit = () => {
-        console.log(11111111111111111111111111111111111)
         setSelectedLevel(undefined)
-        setInterval(() => setModal(null), 50)
+        setTimeout(() => setModal(null), 50)
     }
 
     const handleBuy = async () => {

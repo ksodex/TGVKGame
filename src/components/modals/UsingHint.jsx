@@ -1,9 +1,9 @@
-import { useGameLogicAnnagrams as useGameLogic } from "../../hooks/state/useGameLogic"
+// import { useGameLogicAnnagrams as useGameLogic } from "../../hooks/state/useGameLogic"
 import { useUser } from "../../hooks/useUser"
 import { Button } from "../Button"
 
-export const UsingHint = ({ setModal, gameState, getHint }) => {
-    const { setMoney, setHints } = useUser({ dependencies: [] })
+export const UsingHint = ({ setModal, getHint }) => {
+    const { setHints, hints } = useUser({ dependencies: [] })
 
     const handleUseHint = async () => {
         try {
@@ -13,6 +13,7 @@ export const UsingHint = ({ setModal, gameState, getHint }) => {
                 await new Promise(resolve => {
                     setHints(prev => {
                         resolve()
+                        setHints(hints - 1)
                         return prev - 1
                     })
                 })

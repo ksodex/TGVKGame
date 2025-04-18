@@ -3,7 +3,7 @@ import { Button } from "../Button"
 export const LevelTimeOut = ({ setModal, againVoid, setSelectedLevel }) => {
     const exit = () => {
         setSelectedLevel(undefined)
-        setInterval(() => setModal(null), 50)
+        setTimeout(() => setModal(null), 50)
     }
 
     return <div className="fixed inset-0 flex items-center justify-center bg-black/50 bg-opacity-50 z-50 w-full">

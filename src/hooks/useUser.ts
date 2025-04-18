@@ -30,7 +30,7 @@ export const useUser = ({ dependencies }: IUseUser) => {
 
     useEffect(() => {
         getUserData()
-    }, ...dependencies)
+    }, [...dependencies])
 
     return { experience, money, hints, setHints, getUserData }
 }
