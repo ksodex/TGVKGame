@@ -63,8 +63,7 @@ export const MemoryGame = () => {
             setIsLocked(true)
             setTimeout(() => {
                 setIsLocked(false)
-
-            }, 1000)
+            }, 500)
         }
     }, [gameState.grid])
 

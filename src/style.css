@@ -1,1 +1,16 @@
+/* html,
+body {
+    background: #f1f3f5 !important
+}
+
+body {
+    scroll-behavior: smooth;
+    min-height: 100vh
+}
+
+:root {
+    overflow-y: hidden;
+    max-height: var(--tg-viewport-stable-height, 100vh)
+} */
+
 @import "tailwindcss"
