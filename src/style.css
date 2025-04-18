@@ -1,16 +1,53 @@
-/* html,
-body {
-    background: #f1f3f5 !important
+body,
+html {
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  background: var(--background_panel) !important;
+  overflow-x: hidden !important;
 }
 
-body {
-    scroll-behavior: smooth;
-    min-height: 100vh
+.vkui,
+.vkui > body,
+.vkui__root {
+  background: var(--background_panel) !important;
+  color-scheme: var(--background_panel) !important;
 }
 
 :root {
-    overflow-y: hidden;
-    max-height: var(--tg-viewport-stable-height, 100vh)
-} */
+  --background_panel: #f1f3f5 !important;
+
+  overflow-y: hidden !important;
+  max-height: var(--tg-viewport-stable-height, 100vh) !important;
+}
+
+* {
+  text-decoration: none;
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.vkuiPanel .vkuiPanel__in,
+.vkuiPanel:before {
+  padding: 0px;
+  background: var(--background_panel) !important;
+  color-scheme: var(--background_panel) !important;
+}
 
 @import "tailwindcss"

@@ -161,15 +161,15 @@ const RatingPage = () => {
                         }}
                         className="flex items-center justify-center aspect-square rounded-full w-10 h-10"
                     >
-                        <div className="flex items-center justify-center relative left-3 top-3 bg-white shadow-black shadow-xl aspect-square rounded-full text-[12px] font-bold w-4 h-4">
+                        {/* <div className="flex items-center justify-center relative left-3 top-3 bg-white shadow-black shadow-xl aspect-square rounded-full text-[12px] font-bold w-4 h-4">
                             {1}
-                        </div>
+                        </div> */}
                     </div>
 
                     <span>{nowUser && nowUser.name}</span>
                 </div>
 
-                <div className="flex items-center">
+                <div className="flex gap-1 items-center">
                     <svg
                         width="12"
                         height="18"
