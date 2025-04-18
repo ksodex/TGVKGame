@@ -12,7 +12,7 @@ const MainPage = () => {
     const [_, toPanel] = useRouterPanel()
     const [activeCategory, setActiveCategory] = useState("Все")
 
-    return <main className="bg-red-200">
+    return <main className="bg-[#f1f3f5]">
         <PanelHeader separator={true}>
             <span className="flex justify-center text-md text-[#FF4800]">Игры</span>
         </PanelHeader>
