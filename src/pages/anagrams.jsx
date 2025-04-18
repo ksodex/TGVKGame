@@ -20,10 +20,10 @@ import { useModal } from "../hooks/useModal"
 import { useUser } from "../hooks/useUser"
 
 const levels = [
-    { code: 4, levelName: "Детский", description: "Слова из 4-5 букв" },
-    { code: 6, levelName: "Простой", description: "Слова из 6-7 букв" },
-    { code: 8, levelName: "Средний", description: "Слова из 8-9 букв" },
-    { code: 10, levelName: "Сложный", description: "Слова из 10+ букв" }
+    { code: 4, levelName: "Детский", description: "Слова из 4-5 букв", winMoney: "50", winExp: "20" },
+    { code: 6, levelName: "Простой", description: "Слова из 6-7 букв", winMoney: "100", winExp: "40" },
+    { code: 8, levelName: "Средний", description: "Слова из 8-9 букв", winMoney: "150", winExp: "60" },
+    { code: 10, levelName: "Сложный", description: "Слова из 10+ букв", winMoney: "300", winExp: "80" }
 ]
 
 const categoryes = [
@@ -39,7 +39,7 @@ export const AnagramsGame = () => {
     const [_, toPanel] = useRouterPanel()
     const toBack = useRouterBack()
 
-    const { handleCreateRound, checkWord, getHint } =
+    const { handleCreateRound, checkWord, getHint, getLevelData } =
         useGameLogic({ ...gameState, toBack, getUserData })
 
     const { handlePositionSelect, handleSymbolClick, handleRemoveLastSymbol } =
@@ -89,6 +89,9 @@ export const AnagramsGame = () => {
 
     return <main className="bg-[#f1f3f5] min-h-screen space-y-4">
         <PanelHeader
+            after={
+                <GameHeader data={{ money }} />
+            }
             before={
                 <button className="ml-5" onClick={() => toBack(-1)}>
                     <svg
@@ -122,11 +125,12 @@ export const AnagramsGame = () => {
                     handleInitializeRound={handleCreateRound}
                     selectedCategory={gameState.selectedCategory}
                     setSelectedCategory={gameState.setSelectedCategory}
+                    setSelectedLevel={gameState.setSelectedLevel}
                 /> :
                 <section className="space-y-4 text-[#430B51] p-2 m-2">
                     <GameHeader
                         data={{
-                            money,
+                            money: getLevelData(levels).winMoney,
                             attemps: String(gameState.attemps),
                             time: formatTime(gameState.aviableTime),
                             hints: String(hints)

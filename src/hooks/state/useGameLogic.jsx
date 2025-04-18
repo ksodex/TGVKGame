@@ -104,6 +104,7 @@ export const useGameLogicAnnagrams = ({
             if (data.isCorrect) {
                 setModal(
                     <LevelPassed
+                        setSelectedLevel={setSelectedLevel}
                         againVoid={() => {
                             handleCreateRound(selectedLevel, selectedCategory.type)
                             getUserData().then(data => {
@@ -111,7 +112,6 @@ export const useGameLogicAnnagrams = ({
                             })
                         }}
                         setModal={setModal}
-                        toBack={toBack}
                         data={{
                             winExperience: data.expReceived,
                             winMoney: data.money,
@@ -153,7 +153,20 @@ export const useGameLogicAnnagrams = ({
         }
     }
 
-    return { handleCreateRound, handleValidate, checkWord, getHint }
+    const getLevelData = (levels) => {
+        let levelData = undefined
+
+        for (const item of levels) {
+            if (item.code === selectedLevel) {
+                levelData = item
+                break
+            }
+        }
+
+        return levelData
+    }
+
+    return { handleCreateRound, handleValidate, checkWord, getHint, getLevelData }
 }
 
 export const useGameLogicMemory = ({
@@ -177,6 +190,19 @@ export const useGameLogicMemory = ({
     toBack,
     getUserData
 }) => {
+    const getLevelData = (levels) => {
+        let levelData = undefined
+
+        for (const item of levels) {
+            if (item.code === selectedLevel) {
+                levelData = item
+                break
+            }
+        }
+
+        return levelData
+    }
+
     const getGridSize = (level) => {
         switch (level) {
             case 4: return { rows: 2, columns: 2 }
@@ -297,6 +323,7 @@ export const useGameLogicMemory = ({
                 setWinTime(data.timeLeft)
                 setModal(
                     <LevelPassed
+                        setSelectedLevel={setSelectedLevel}
                         againVoid={() => {
                             handleCreateRound(selectedLevel)
                             getUserData().then(data => {
@@ -304,7 +331,6 @@ export const useGameLogicMemory = ({
                             })
                         }}
                         setModal={setModal}
-                        toBack={toBack}
                         data={{
                             winExperience: data.expReceived,
                             winMoney: data.money,
@@ -324,9 +350,9 @@ export const useGameLogicMemory = ({
         try {
             const response = await axios.get("/games/memory/hint")
             const data = response.data
-    
+
             const newGrid = [...grid]
-    
+
             data.hint.forEach(({ x, y, value }) => {
                 const index = x * column + y
 
@@ -336,10 +362,10 @@ export const useGameLogicMemory = ({
                     value: value,
                 }
             })
-    
+
             setGrid(newGrid)
             setAttemps(data.attemptsLeft)
-    
+
             setTimeout(() => {
                 const resetGrid = newGrid.map((card) => ({
                     ...card,
@@ -369,6 +395,7 @@ export const useGameLogicMemory = ({
         getHint,
         createGrid,
         getGridSize,
+        getLevelData,
         handleValidate,
         handleCreateRound,
         getCardCoordinates

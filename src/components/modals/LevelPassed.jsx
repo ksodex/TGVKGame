@@ -3,7 +3,12 @@ import confetti from "canvas-confetti"
 import { Button } from "../Button"
 import { TimeCard, CoinCard, ExperienceCard } from "../cards"
 
-export const LevelPassed = ({ setModal, againVoid, toBack, data }) => {
+export const LevelPassed = ({
+    setSelectedLevel,
+    againVoid,
+    setModal,
+    data 
+}) => {
     confetti({ particleCount: 400 })
 
     return <div className="fixed inset-0 flex items-center justify-center bg-black/50 bg-opacity-50 z-50 w-full">
@@ -29,7 +34,7 @@ export const LevelPassed = ({ setModal, againVoid, toBack, data }) => {
                 </Button>
                 <Button onClick={() => {
                     setModal(null)
-                    toBack(-1)
+                    setSelectedLevel(undefined)
                 }}>Выйти</Button>
             </div>
         </div>

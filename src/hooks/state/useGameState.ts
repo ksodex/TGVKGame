@@ -25,7 +25,7 @@ const useDefaultState = () => {
 export const useGameStateAnnagrams = () => {
     const defaultState = useDefaultState()
 
-    const [selectedCategory, setSelectedCategory] = useState(0)
+    const [selectedCategory, setSelectedCategory] = useState({id: 0, title: "Животные", type: "animals"})
     const [attachedSymbols, setAttachedSymbols] = useState([])
     const [selectedPosition, setSelectedPosition] = useState(null)
     const [aviableSymbols, setAviableSymbols] = useState(undefined)

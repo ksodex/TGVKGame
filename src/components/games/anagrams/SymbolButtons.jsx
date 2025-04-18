@@ -24,7 +24,11 @@ export const SymbolButtons = ({ aviableSymbols, attachedSymbols, handleSymbolCli
                                 "text-[#430B51]"
                         } transition-colors text-4xl font-bold`}
                 >
-                    {symbolObj.symbol}
+                    {
+                        symbolObj.symbol === " " ?
+                            "_" :
+                            symbolObj.symbol
+                    }
                 </span>
             </button>
         ))}

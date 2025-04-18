@@ -16,12 +16,12 @@ import { useModal } from "../hooks/useModal"
 import { useUser } from "../hooks/useUser"
 
 const levels = [
-    { code: 4, levelName: "Детский", description: "По 4 карточки на столе" },
-    { code: 6, levelName: "Простой", description: "По 6 карточки на столе" },
-    { code: 12, levelName: "Средний", description: "По 12 карточки на столе" },
-    { code: 16, levelName: "Сложный", description: "По 16 карточки на столе" },
-    { code: 20, levelName: "Хардкор", description: "По 20 карточки на столе" },
-    { code: 24, levelName: "Для профи", description: "По 24 карточки на столе" }
+    { code: 4, levelName: "Детский", description: "По 4 карточки на столе", winMoney: "50", winExp: "30" },
+    { code: 6, levelName: "Простой", description: "По 6 карточки на столе", winMoney: "100", winExp: "60" },
+    { code: 12, levelName: "Средний", description: "По 12 карточки на столе", winMoney: "150", winExp: "100" },
+    { code: 16, levelName: "Сложный", description: "По 16 карточки на столе", winMoney: "200", winExp: "150" },
+    { code: 20, levelName: "Хардкор", description: "По 20 карточки на столе", winMoney: "250", winExp: "200" },
+    { code: 24, levelName: "Для профи", description: "По 24 карточки на столе", winMoney: "300", winExp: "250" }
 ]
 
 export const MemoryGame = () => {
@@ -35,10 +35,10 @@ export const MemoryGame = () => {
         dependencies: [gameState.aviableTime, gameState.attemps]
     })
 
-    const [isLocked, setIsLocked] = useState(false) // Add locked state
+    const [isLocked, setIsLocked] = useState(false)
 
-    const { handleCreateRound, handleValidate, getHint } =
-        useGameLogic({ ...gameState, setModal, toBack, getUserData, setIsLocked }) // Pass setIsLocked
+    const { handleCreateRound, handleValidate, getHint, getLevelData } =
+        useGameLogic({ ...gameState, setModal, toBack, getUserData, setIsLocked })
 
     useTimer({
         dependencies: {
@@ -85,9 +85,12 @@ export const MemoryGame = () => {
             )
         }
     }, [gameState.aviableTime, gameState.modal, gameState.selectedLevel])
-
+    
     return <main className="bg-[#f1f3f5] min-h-screen space-y-4">
         <PanelHeader
+            after={
+                <GameHeader data={{ money }} />
+            }
             before={
                 <button className="ml-5" onClick={() => toBack(-1)}>
                     <svg
@@ -124,7 +127,7 @@ export const MemoryGame = () => {
                     <div className="space-y-5">
                         <GameHeader
                             data={{
-                                money,
+                                money: getLevelData(levels).winMoney,
                                 attemps: String(gameState.attemps),
                                 time: formatTime(gameState.aviableTime),
                                 hints: String(hints)
